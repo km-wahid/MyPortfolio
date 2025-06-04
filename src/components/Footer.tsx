@@ -1,5 +1,5 @@
-import React from 'react';
-import { Github, Linkedin, Mail, Code } from 'lucide-react';
+import React from "react";
+import { Github, Linkedin, Mail, Code } from "lucide-react";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
               <Linkedin className="h-5 w-5" />
             </a>
             <a
-              href="mailto:contact@yourname.com"
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=khalidmuhammad.official@gmail.com"
               className="text-gray-400 hover:text-neon-blue transition-colors duration-300"
             >
               <Mail className="h-5 w-5" />
@@ -38,7 +38,9 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="text-gray-500 text-sm">
-            <p>&copy; {currentYear} | Code forged with discipline and caffeine</p>
+            <p>
+              &copy; {currentYear} | Code forged with discipline and caffeine
+            </p>
           </div>
         </div>
       </div>

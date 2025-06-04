@@ -35,8 +35,8 @@ const Navbar: React.FC = () => {
           <a href="#" className="flex items-center space-x-2">
             <Code className="h-6 w-6 text-neon-blue" />
             <span className="text-xl font-montserrat font-bold tracking-tight">
-              <span className="text-white">DEV</span>
-              <span className="neon-text-blue">ENGINEER</span>
+              <span className="text-white">Khalid</span>
+              <span className="neon-text-blue">Muhammad</span>
             </span>
           </a>
 
