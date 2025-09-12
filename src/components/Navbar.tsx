@@ -53,13 +53,13 @@ const Navbar: React.FC = () => {
             ))}
             <a
   href="/resume.pdf"
+  download="Khalid_Resume.pdf"
   className="flex items-center space-x-1 neon-button-blue"
-  target="_blank"
-  rel="noopener noreferrer"
 >
   <Download className="h-4 w-4" />
   <span>Resume</span>
 </a>
+
 
           </nav>
 

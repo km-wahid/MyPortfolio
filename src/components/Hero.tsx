@@ -66,11 +66,16 @@ const Hero: React.FC = () => {
               <a href="#contact" className="neon-button-blue">
                 Let's Connect
               </a>
-              <a href="#" className="neon-button-orange">
-                <span className="flex items-center">
-                  <Download className="mr-2 h-5 w-5" /> Download Resume
-                </span>
-              </a>
+              <a
+  href="/resume.pdf"
+  download="Khalid_Resume.pdf"
+  className="neon-button-orange"
+>
+  <span className="flex items-center">
+    <Download className="mr-2 h-5 w-5" /> Download Resume
+  </span>
+</a>
+
             </div>
 
             <div className="flex items-center space-x-4">
