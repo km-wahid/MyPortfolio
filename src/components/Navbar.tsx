@@ -36,7 +36,7 @@ const Navbar: React.FC = () => {
             <Code className="h-6 w-6 text-neon-blue" />
             <span className="text-xl font-montserrat font-bold tracking-tight">
               <span className="text-white">Khalid</span>
-              <span className="neon-text-blue">Muhammad</span>
+              <span className="neon-text-blue">Muhammad </span>
             </span>
           </a>
 
@@ -52,12 +52,15 @@ const Navbar: React.FC = () => {
               </a>
             ))}
             <a
-              href="#"
-              className="flex items-center space-x-1 neon-button-blue"
-            >
-              <Download className="h-4 w-4" />
-              <span>Resume</span>
-            </a>
+  href="/resume.pdf"
+  className="flex items-center space-x-1 neon-button-blue"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <Download className="h-4 w-4" />
+  <span>Resume</span>
+</a>
+
           </nav>
 
           {/* Mobile Menu Button */}
