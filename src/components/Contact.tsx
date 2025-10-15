@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Github, Linkedin, Mail, Send } from 'lucide-react';
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 
 const Contact: React.FC = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
-  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+  const [formState, setFormState] = useState({
+    name: '',
+    email: '',
+    message: '',
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -34,18 +38,21 @@ const Contact: React.FC = () => {
 
     try {
       await emailjs.send(
-        'YOUR_SERVICE_ID',
-        'YOUR_TEMPLATE_ID',
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
           from_name: formState.name,
           from_email: formState.email,
           message: formState.message,
         },
-        'YOUR_PUBLIC_KEY'
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
+
       setSubmitSuccess(true);
       setFormState({ name: '', email: '', message: '' });
+      setTimeout(() => setSubmitSuccess(false), 5000);
     } catch (error) {
+      console.error(error);
       setSubmitError('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -61,6 +68,7 @@ const Contact: React.FC = () => {
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
         >
+          {/* Header */}
           <motion.div variants={itemVariants} className="text-center mb-16">
             <p className="text-neon-orange mb-4 uppercase font-semibold tracking-wider">Contact</p>
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
@@ -73,12 +81,13 @@ const Contact: React.FC = () => {
           </motion.div>
 
           <motion.div variants={containerVariants} className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            {/* Left Info */}
             <motion.div variants={itemVariants} className="lg:col-span-2 space-y-8">
               <div className="bg-dark-300 rounded-lg p-6 border border-dark-100">
                 <h3 className="text-xl font-bold mb-4 flex items-center">
                   <Mail className="h-5 w-5 mr-2 text-neon-blue" /> Email Me
                 </h3>
-                <p className="text-gray-400 mb-2">Feel free to reach out via email:</p>
+                <p className="text-gray-400 mb-2">Reach me at:</p>
                 <a href="mailto:khalidmuhammad.official@gmail.com" className="text-neon-blue hover:underline">
                   khalidmuhammad.official@gmail.com
                 </a>
@@ -104,7 +113,7 @@ const Contact: React.FC = () => {
                     <Linkedin className="h-6 w-6" />
                   </a>
                   <a
-                    href="https://mail.google.com/mail/?view=cm&fs=1&to=khalidmuhammad.official@gmail.com"
+                    href="mailto:khalidmuhammad.official@gmail.com"
                     className="bg-dark-100 hover:bg-dark-900 text-white p-3 rounded-full transition-colors duration-300"
                   >
                     <Mail className="h-6 w-6" />
@@ -113,6 +122,7 @@ const Contact: React.FC = () => {
               </div>
             </motion.div>
 
+            {/* Right Form */}
             <motion.div variants={itemVariants} className="lg:col-span-3">
               <div className="bg-dark-300 rounded-lg p-6 border border-dark-100">
                 <h3 className="text-xl font-bold mb-6 font-mono flex items-center">
@@ -121,15 +131,13 @@ const Contact: React.FC = () => {
 
                 {submitSuccess ? (
                   <div className="bg-dark-100 p-6 rounded-lg border border-accent-success text-center">
-                    <p className="text-accent-success text-lg mb-2">📨 Message received!</p>
+                    <p className="text-accent-success text-lg mb-2">📨 Message sent!</p>
                     <p className="text-gray-300">I'll get back within 24 hours — no bots, just code.</p>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                      <label htmlFor="name" className="block text-gray-300 mb-2 font-mono">
-                        $ name:
-                      </label>
+                      <label htmlFor="name" className="block text-gray-300 mb-2 font-mono">$ name:</label>
                       <input
                         type="text"
                         id="name"
@@ -143,9 +151,7 @@ const Contact: React.FC = () => {
                     </div>
 
                     <div>
-                      <label htmlFor="email" className="block text-gray-300 mb-2 font-mono">
-                        $ email:
-                      </label>
+                      <label htmlFor="email" className="block text-gray-300 mb-2 font-mono">$ email:</label>
                       <input
                         type="email"
                         id="email"
@@ -159,9 +165,7 @@ const Contact: React.FC = () => {
                     </div>
 
                     <div>
-                      <label htmlFor="message" className="block text-gray-300 mb-2 font-mono">
-                        $ message:
-                      </label>
+                      <label htmlFor="message" className="block text-gray-300 mb-2 font-mono">$ message:</label>
                       <textarea
                         id="message"
                         name="message"
@@ -171,12 +175,10 @@ const Contact: React.FC = () => {
                         rows={5}
                         className="terminal-input resize-none"
                         placeholder="I'd like to discuss a project..."
-                      ></textarea>
+                      />
                     </div>
 
-                    {submitError && (
-                      <div className="text-accent-error text-sm">{submitError}</div>
-                    )}
+                    {submitError && <div className="text-accent-error text-sm">{submitError}</div>}
 
                     <button
                       type="submit"
