@@ -302,3 +302,20 @@ h1, h2, h3, h4, h5, h6 {
 .card-3d:hover {
   transform: rotateY(10deg) rotateX(5deg);
 }
+
+
+.text-gradient-orange {
+  background: linear-gradient(90deg, #ff7b00, #ffbb33);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-gradient-orange {
+  background: linear-gradient(90deg, #ff7b00, #ffbb33);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-neon-orange {
+  color: #ff9b40;
+  text-shadow: 0 0 8px #ff7b00, 0 0 16px #ffa733;
+}
