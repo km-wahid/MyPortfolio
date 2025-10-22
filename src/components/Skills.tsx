@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import {
   SiHtml5, SiCss3, SiJavascript, SiPython, SiDocker, SiGit,
   SiGithub, SiDjango, SiCplusplus, SiNginx, SiCelery, SiRedis,
-  SiPostgresql, SiMysql, SiSelenium, SiScrapy,
+  SiPostgresql, SiMysql, SiSelenium, SiScrapy, SiAew,
 } from "react-icons/si";
 import { BrainCircuit, Database } from "lucide-react";
 
@@ -23,6 +23,7 @@ const Skills: React.FC = () => {
     { name: "PostgreSQL", icon: <SiPostgresql className="text-blue-700" /> },
     { name: "MySQL", icon: <SiMysql className="text-blue-500" /> },
     { name: "SQL", icon: <Database className="text-purple-400" /> },
+    { name: "AWS", icon: <SiAws className="text-orange-400" /> },
     { name: "Selenium", icon: <SiSelenium className="text-green-600" /> },
     { name: "Scrapy", icon: <SiScrapy className="text-black dark:text-white" /> },
     { name: "Problem Solving", icon: <BrainCircuit className="text-indigo-500" /> },
