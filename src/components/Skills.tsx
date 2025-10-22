@@ -1,12 +1,16 @@
 import { motion } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import {
   SiHtml5, SiCss3, SiJavascript, SiPython, SiDocker, SiGit,
   SiGithub, SiDjango, SiCplusplus, SiNginx, SiCelery, SiRedis,
-  SiPostgresql, SiMysql, SiSelenium, SiScrapy, SiAew,
+  SiPostgresql, SiMysql, SiSelenium, SiScrapy,
 } from "react-icons/si";
-import { BrainCircuit, Database } from "lucide-react";
+import { BrainCircuit, Database, Cloud } from "lucide-react";
 
 const Skills: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollWidth, setScrollWidth] = useState(0);
+
   const skills = [
     { name: "HTML", icon: <SiHtml5 className="text-orange-500" /> },
     { name: "CSS", icon: <SiCss3 className="text-blue-500" /> },
@@ -23,7 +27,7 @@ const Skills: React.FC = () => {
     { name: "PostgreSQL", icon: <SiPostgresql className="text-blue-700" /> },
     { name: "MySQL", icon: <SiMysql className="text-blue-500" /> },
     { name: "SQL", icon: <Database className="text-purple-400" /> },
-    { name: "AWS", icon: <SiAws className="text-orange-400" /> },
+    { name: "AWS", icon: <Cloud className="text-orange-400" /> },
     { name: "Selenium", icon: <SiSelenium className="text-green-600" /> },
     { name: "Scrapy", icon: <SiScrapy className="text-black dark:text-white" /> },
     { name: "Problem Solving", icon: <BrainCircuit className="text-indigo-500" /> },
@@ -34,6 +38,14 @@ const Skills: React.FC = () => {
     { name: "Rapid Learning", icon: <BrainCircuit className="text-teal-400" /> },
   ];
 
+  const repeatedSkills = [...skills, ...skills];
+
+  useEffect(() => {
+    if (containerRef.current) {
+      setScrollWidth(containerRef.current.scrollWidth / 2);
+    }
+  }, [containerRef.current]);
+
   return (
     <section id="skills" className="py-20 bg-dark-200 overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-4 text-center">
@@ -41,38 +53,34 @@ const Skills: React.FC = () => {
           My <span className="text-gradient-orange">Tech Stack</span>
         </h2>
 
-        {/* Smooth Infinite Horizontal Scroll */}
-        <div className="relative w-full overflow-hidden">
-          <motion.div
-            className="flex gap-10 whitespace-nowrap"
-            animate={{ x: ["0%", "-100%"] }}
-            transition={{
-              repeat: Infinity,
-              duration: 25,
-              ease: "linear",
-            }}
-          >
-            {[...skills, ...skills].map((skill, i) => (
-              <motion.div
-                key={i}
-                whileHover={{
-                  scale: 1.2,
-                  y: -8,
-                  textShadow: "0px 0px 12px rgba(255,165,0,0.8)",
-                }}
-                transition={{ type: "spring", stiffness: 200, damping: 8 }}
-                className="flex flex-col items-center text-center text-white min-w-[120px] hover:text-neon-orange"
-              >
-                <div className="text-4xl mb-2 transition-transform duration-300">
-                  {skill.icon}
-                </div>
-                <span className="text-sm font-semibold">{skill.name}</span>
-              </motion.div>
-            ))}
-          </motion.div>
+        <div className="relative w-full overflow-hidden" ref={containerRef}>
+          {scrollWidth > 0 && (
+            <motion.div
+              className="flex gap-10 whitespace-nowrap"
+              animate={{ x: [0, -scrollWidth] }}
+              transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+            >
+              {repeatedSkills.map((skill, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{
+                    scale: 1.2,
+                    y: -8,
+                    textShadow: "0px 0px 12px rgba(255,165,0,0.8)",
+                  }}
+                  transition={{ type: "spring", stiffness: 200, damping: 8 }}
+                  className="flex flex-col items-center text-center text-white min-w-[120px] hover:text-neon-orange"
+                >
+                  <div className="text-4xl mb-2 transition-transform duration-300">
+                    {skill.icon}
+                  </div>
+                  <span className="text-sm font-semibold">{skill.name}</span>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </div>
 
-        {/* Glowing Divider */}
         <div className="mt-12 h-[2px] w-2/3 mx-auto bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-40"></div>
       </div>
     </section>
