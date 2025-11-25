@@ -1,11 +1,22 @@
 import { motion } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+
 import {
   SiHtml5, SiCss3, SiJavascript, SiPython, SiDocker, SiGit,
   SiGithub, SiDjango, SiCplusplus, SiNginx, SiCelery, SiRedis,
   SiPostgresql, SiMysql, SiSelenium, SiScrapy,
 } from "react-icons/si";
-import { BrainCircuit, Database, Cloud } from "lucide-react";
+
+import {
+  Brain,
+  MessageSquare,
+  RefreshCcw,
+  TrendingUp,
+  Bolt,
+  Puzzle,
+  Database,
+  Cloud,
+} from "lucide-react";
 
 const Skills: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -30,13 +41,16 @@ const Skills: React.FC = () => {
     { name: "AWS", icon: <Cloud className="text-orange-400" /> },
     { name: "Selenium", icon: <SiSelenium className="text-green-600" /> },
     { name: "Scrapy", icon: <SiScrapy className="text-black dark:text-white" /> },
-    { name: "Problem Solving", icon: <BrainCircuit className="text-indigo-500" /> },
-    { name: "Critical Thinking", icon: <BrainCircuit className="text-pink-500" /> },
-    { name: "Communication", icon: <BrainCircuit className="text-cyan-400" /> },
-    { name: "Adaptability", icon: <BrainCircuit className="text-lime-500" /> },
-    { name: "Growth Mindset", icon: <BrainCircuit className="text-orange-400" /> },
-    { name: "Rapid Learning", icon: <BrainCircuit className="text-teal-400" /> },
+
+    // Soft Skills With Proper Unique Icons
+    { name: "Problem Solving", icon: <Puzzle className="text-indigo-500" /> },
+    { name: "Critical Thinking", icon: <Brain className="text-pink-500" /> },
+    { name: "Communication", icon: <MessageSquare className="text-cyan-400" /> },
+    { name: "Adaptability", icon: <RefreshCcw className="text-lime-500" /> },
+    { name: "Growth Mindset", icon: <TrendingUp className="text-orange-400" /> },
+    { name: "Rapid Learning", icon: <Bolt className="text-teal-400" /> },
   ];
+
 
   const repeatedSkills = [...skills, ...skills];
 
