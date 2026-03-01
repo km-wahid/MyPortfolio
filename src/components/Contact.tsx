@@ -1,29 +1,35 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Github, Linkedin, Mail, Send } from 'lucide-react';
+import { Github, Linkedin, Mail, Send, MessageCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
 const Contact: React.FC = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState('');
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+  const itemVariants = {
+    hidden:   { y: 24, opacity: 0, filter: 'blur(4px)' },
+    visible:  { y: 0,  opacity: 1, filter: 'blur(0px)', transition: { duration: 0.65 } },
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.6 } },
+  const leftVariants = {
+    hidden:  { x: -60, opacity: 0, filter: 'blur(6px)' },
+    visible: { x: 0,   opacity: 1, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } },
+  };
+
+  const rightVariants = {
+    hidden:  { x: 60, opacity: 0, filter: 'blur(6px)' },
+    visible: { x: 0,  opacity: 1, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } },
+  };
+
+  const fieldVariants = {
+    hidden:  { y: 20, opacity: 0 },
+    visible: (i: number) => ({ y: 0, opacity: 1, transition: { duration: 0.5, delay: i * 0.08 } }),
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -35,19 +41,13 @@ const Contact: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitError('');
-
     try {
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: formState.name,
-          from_email: formState.email,
-          message: formState.message,
-        },
+        { from_name: formState.name, from_email: formState.email, message: formState.message },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
       );
-
       setSubmitSuccess(true);
       setFormState({ name: '', email: '', message: '' });
       setTimeout(() => setSubmitSuccess(false), 5000);
@@ -59,145 +59,189 @@ const Contact: React.FC = () => {
     }
   };
 
+  const socials = [
+    { href: 'https://github.com/km-wahid', icon: <Github className="h-5 w-5" />, label: 'GitHub', color: 'rgba(255,255,255,0.1)' },
+    { href: 'https://www.linkedin.com/in/khalid-muhammad-wahid-0263b01b3/', icon: <Linkedin className="h-5 w-5" />, label: 'LinkedIn', color: 'rgba(0,119,181,0.2)' },
+    { href: 'mailto:khalidmuhammad.official@gmail.com', icon: <Mail className="h-5 w-5" />, label: 'Email', color: 'rgba(0,245,255,0.15)' },
+  ];
+
   return (
-    <section id="contact" className="py-20 bg-dark-200 relative overflow-hidden">
+    <section id="contact" className="py-24 relative overflow-hidden">
+      {/* Background radial */}
+      <div className="absolute inset-0 pointer-events-none" style={{
+        background: 'radial-gradient(ellipse 60% 50% at 70% 50%, rgba(178,75,243,0.04) 0%, transparent 70%)',
+      }} />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
-          variants={containerVariants}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
+          variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.15 } } }}
         >
           {/* Header */}
           <motion.div variants={itemVariants} className="text-center mb-16">
-            <p className="text-neon-orange mb-4 uppercase font-semibold tracking-wider">Contact</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            <div className="flex justify-center mb-4">
+              <span className="section-tag" style={{ color: '#ff7b00', borderColor: 'rgba(255,123,0,0.3)', background: 'rgba(255,123,0,0.05)' }}>
+                Contact
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Let's <span className="text-gradient-orange">Connect</span>
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-gray-400 max-w-xl mx-auto">
               Have a project in mind or just want to chat about technology? I'm always open to new
               opportunities and collaborations.
             </p>
           </motion.div>
 
-          <motion.div variants={containerVariants} className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-            {/* Left Info */}
-            <motion.div variants={itemVariants} className="lg:col-span-2 space-y-8">
-              <div className="bg-dark-300 rounded-lg p-6 border border-dark-100">
-                <h3 className="text-xl font-bold mb-4 flex items-center">
-                  <Mail className="h-5 w-5 mr-2 text-neon-blue" /> Email Me
-                </h3>
-                <p className="text-gray-400 mb-2">Reach me at:</p>
-                <a href="mailto:khalidmuhammad.official@gmail.com" className="text-neon-blue hover:underline">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            {/* Left: info */}
+            <motion.div variants={leftVariants} className="lg:col-span-2 space-y-6">
+              {/* Email card */}
+              <div className="glass glass-hover rounded-2xl p-6 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none" style={{
+                  background: 'radial-gradient(circle, rgba(0,245,255,0.06) 0%, transparent 70%)',
+                }} />
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-9 h-9 rounded-lg bg-neon-blue/10 border border-neon-blue/20 flex items-center justify-center">
+                    <Mail className="h-4 w-4 text-neon-blue" />
+                  </div>
+                  <h3 className="font-semibold text-white">Email Me</h3>
+                </div>
+                <p className="text-gray-500 text-sm mb-1">Reach me at:</p>
+                <a href="mailto:khalidmuhammad.official@gmail.com"
+                  className="text-neon-blue text-sm hover:underline underline-offset-2">
                   khalidmuhammad.official@gmail.com
                 </a>
               </div>
 
-              <div className="bg-dark-300 rounded-lg p-6 border border-dark-100">
-                <h3 className="text-xl font-bold mb-4">Connect With Me</h3>
-                <div className="flex space-x-4">
-                  <a
-                    href="https://github.com/km-wahid"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-dark-100 hover:bg-dark-900 text-white p-3 rounded-full transition-colors duration-300"
-                  >
-                    <Github className="h-6 w-6" />
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/khalid-muhammad-wahid-0263b01b3/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-dark-100 hover:bg-dark-900 text-white p-3 rounded-full transition-colors duration-300"
-                  >
-                    <Linkedin className="h-6 w-6" />
-                  </a>
-                  <a
-                    href="mailto:khalidmuhammad.official@gmail.com"
-                    className="bg-dark-100 hover:bg-dark-900 text-white p-3 rounded-full transition-colors duration-300"
-                  >
-                    <Mail className="h-6 w-6" />
-                  </a>
+              {/* Socials card */}
+              <div className="glass glass-hover rounded-2xl p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-neon-purple/10 border border-neon-purple/20 flex items-center justify-center">
+                    <MessageCircle className="h-4 w-4 text-neon-purple" />
+                  </div>
+                  <h3 className="font-semibold text-white">Connect With Me</h3>
                 </div>
+                <div className="flex gap-3">
+                  {socials.map((s) => (
+                    <motion.a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl text-gray-400 hover:text-white transition-all duration-300"
+                      style={{ background: s.color, border: '1px solid rgba(255,255,255,0.06)' }}
+                      whileHover={{ y: -3, scale: 1.02 }}
+                      title={s.label}
+                    >
+                      {s.icon}
+                      <span className="text-xs font-medium">{s.label}</span>
+                    </motion.a>
+                  ))}
+                </div>
+              </div>
+
+              {/* Availability badge */}
+              <div className="glass rounded-2xl p-4 flex items-center gap-3">
+                <div className="w-2.5 h-2.5 rounded-full bg-accent-success animate-glowPulse flex-shrink-0"
+                  style={{ boxShadow: '0 0 8px #00ff66' }} />
+                <span className="text-sm text-gray-300">
+                  Available for new opportunities
+                </span>
               </div>
             </motion.div>
 
-            {/* Right Form */}
-            <motion.div variants={itemVariants} className="lg:col-span-3">
-              <div className="bg-dark-300 rounded-lg p-6 border border-dark-100">
-                <h3 className="text-xl font-bold mb-6 font-mono flex items-center">
-                  <span className="text-neon-orange mr-2">$</span> Send Message.exe
+            {/* Right: form */}
+            <motion.div variants={rightVariants} className="lg:col-span-3">
+              <div className="glass glass-hover rounded-2xl p-8 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-32 h-32 pointer-events-none" style={{
+                  background: 'radial-gradient(circle, rgba(178,75,243,0.05) 0%, transparent 70%)',
+                }} />
+
+                <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
+                  <span className="text-neon-orange font-mono">$</span>
+                  <span>Send Message.exe</span>
                 </h3>
 
                 {submitSuccess ? (
-                  <div className="bg-dark-100 p-6 rounded-lg border border-accent-success text-center">
-                    <p className="text-accent-success text-lg mb-2">📨 Message sent!</p>
-                    <p className="text-gray-300">I'll get back within 24 hours — no bots, just code.</p>
-                  </div>
+                  <motion.div
+                    className="rounded-xl p-8 text-center"
+                    style={{ background: 'rgba(0,255,102,0.05)', border: '1px solid rgba(0,255,102,0.2)' }}
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                  >
+                    <div className="text-4xl mb-3">📨</div>
+                    <p className="text-accent-success text-lg font-semibold mb-1">Message sent!</p>
+                    <p className="text-gray-400 text-sm">I'll get back within 24 hours — no bots, just code.</p>
+                  </motion.div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                      <label htmlFor="name" className="block text-gray-300 mb-2 font-mono">$ name:</label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formState.name}
-                        onChange={handleInputChange}
-                        required
-                        className="terminal-input"
-                        placeholder="John Doe"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="email" className="block text-gray-300 mb-2 font-mono">$ email:</label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formState.email}
-                        onChange={handleInputChange}
-                        required
-                        className="terminal-input"
-                        placeholder="john@example.com"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="message" className="block text-gray-300 mb-2 font-mono">$ message:</label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        value={formState.message}
-                        onChange={handleInputChange}
-                        required
-                        rows={5}
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <motion.div custom={0} variants={fieldVariants} initial="hidden" animate="visible">
+                      <label className="block text-gray-400 text-sm mb-2 font-mono">
+                        <span className="text-neon-blue">$</span> name
+                      </label>
+                      <input type="text" name="name" value={formState.name}
+                        onChange={handleInputChange} required
+                        className="terminal-input" placeholder="John Doe" />
+                    </motion.div>
+                    <motion.div custom={1} variants={fieldVariants} initial="hidden" animate="visible">
+                      <label className="block text-gray-400 text-sm mb-2 font-mono">
+                        <span className="text-neon-blue">$</span> email
+                      </label>
+                      <input type="email" name="email" value={formState.email}
+                        onChange={handleInputChange} required
+                        className="terminal-input" placeholder="john@example.com" />
+                    </motion.div>
+                    <motion.div custom={2} variants={fieldVariants} initial="hidden" animate="visible">
+                      <label className="block text-gray-400 text-sm mb-2 font-mono">
+                        <span className="text-neon-blue">$</span> message
+                      </label>
+                      <textarea name="message" value={formState.message}
+                        onChange={handleInputChange} required rows={5}
                         className="terminal-input resize-none"
-                        placeholder="I'd like to discuss a project..."
-                      />
-                    </div>
+                        placeholder="I'd like to discuss a project..." />
+                    </motion.div>
 
-                    {submitError && <div className="text-accent-error text-sm">{submitError}</div>}
+                    {submitError && (
+                      <p className="text-accent-error text-sm">{submitError}</p>
+                    )}
 
-                    <button
+                    <motion.div custom={3} variants={fieldVariants} initial="hidden" animate="visible">
+                    <motion.button
                       type="submit"
                       disabled={isSubmitting}
-                      className="neon-button-orange w-full flex items-center justify-center"
+                      className="w-full gradient-border-btn flex items-center justify-center gap-2 disabled:opacity-60"
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
                     >
                       {isSubmitting ? (
-                        <span>Processing...</span>
+                        <motion.span
+                          className="flex items-center gap-2 text-gray-300"
+                          animate={{ opacity: [1, 0.5, 1] }}
+                          transition={{ duration: 0.8, repeat: Infinity }}
+                        >
+                          <motion.span
+                            style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#00F5FF' }}
+                            animate={{ scale: [1, 1.5, 1] }}
+                            transition={{ duration: 0.5, repeat: Infinity }}
+                          />
+                          Processing...
+                        </motion.span>
                       ) : (
                         <>
-                          <Send className="h-4 w-4 mr-2" /> Execute Send Command
+                          <Send className="h-4 w-4" />
+                          <span>Execute Send Command</span>
                         </>
                       )}
-                    </button>
+                    </motion.button>
+                    </motion.div>
                   </form>
                 )}
               </div>
             </motion.div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
@@ -205,3 +249,4 @@ const Contact: React.FC = () => {
 };
 
 export default Contact;
+
