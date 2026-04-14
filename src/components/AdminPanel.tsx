@@ -206,16 +206,16 @@ const AdminPanel: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-wrap gap-3 items-center justify-between mb-6">
           <h1 className="text-2xl md:text-3xl font-bold">Portfolio Admin Panel</h1>
-          <div className="flex gap-2">
-            <a href="/" className="px-4 py-2 rounded-lg border border-white/20">Open Website</a>
-            <button onClick={saveAll} className="px-4 py-2 rounded-lg bg-neon-blue/20 border border-neon-blue/40">Save</button>
-            <button onClick={resetAll} className="px-4 py-2 rounded-lg bg-neon-purple/20 border border-neon-purple/40">Reset</button>
+          <div className="flex flex-wrap w-full sm:w-auto gap-2">
+            <a href="/" className="px-3 sm:px-4 py-2 rounded-lg border border-white/20 text-sm sm:text-base">Open Website</a>
+            <button onClick={saveAll} className="px-3 sm:px-4 py-2 rounded-lg bg-neon-blue/20 border border-neon-blue/40 text-sm sm:text-base">Save</button>
+            <button onClick={resetAll} className="px-3 sm:px-4 py-2 rounded-lg bg-neon-purple/20 border border-neon-purple/40 text-sm sm:text-base">Reset</button>
             <button
               onClick={() => {
                 sessionStorage.removeItem('portfolio-admin-auth');
                 setIsAuthed(false);
               }}
-              className="px-4 py-2 rounded-lg bg-white/10 border border-white/20"
+              className="px-3 sm:px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-sm sm:text-base"
             >
               Logout
             </button>
@@ -286,7 +286,7 @@ const AdminPanel: React.FC = () => {
             <input className="terminal-input" placeholder="Demo URL/Text" value={projectDraft.demo ?? ''} onChange={(e) => setProjectDraft({ ...projectDraft, demo: e.target.value })} />
             <textarea className="terminal-input md:col-span-2 min-h-28" placeholder="Description" value={projectDraft.description} onChange={(e) => setProjectDraft({ ...projectDraft, description: e.target.value })} />
           </div>
-          <div className="flex gap-2 mt-3">
+          <div className="flex flex-wrap gap-2 mt-3">
             <button onClick={saveProject} className="px-4 py-2 rounded-lg bg-neon-blue/20 border border-neon-blue/40">{selectedProject ? 'Update Project' : 'Add Project'}</button>
             <button onClick={() => { setSelectedProjectId(null); setProjectDraft(emptyProject()); }} className="px-4 py-2 rounded-lg bg-white/10">Clear</button>
           </div>
@@ -331,7 +331,7 @@ const AdminPanel: React.FC = () => {
             <textarea className="terminal-input md:col-span-2 min-h-24" placeholder="Service description" value={serviceDraft.description} onChange={(e) => setServiceDraft({ ...serviceDraft, description: e.target.value })} />
             <input className="terminal-input md:col-span-2" placeholder="Highlights (comma separated)" value={serviceDraft.highlights.join(', ')} onChange={(e) => setServiceDraft({ ...serviceDraft, highlights: e.target.value.split(',').map((h) => h.trim()).filter(Boolean) })} />
           </div>
-          <div className="flex gap-2 mt-3">
+          <div className="flex flex-wrap gap-2 mt-3">
             <button onClick={saveService} className="px-4 py-2 rounded-lg bg-neon-blue/20 border border-neon-blue/40">{selectedServiceId ? 'Update Service' : 'Add Service'}</button>
             <button onClick={() => { setSelectedServiceId(null); setServiceDraft(emptyService()); }} className="px-4 py-2 rounded-lg bg-white/10">Clear</button>
           </div>

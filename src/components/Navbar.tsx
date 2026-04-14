@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import type { MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Download, Home, User, Wrench, Briefcase, ShoppingBag, Mail } from 'lucide-react';
 import ThemeSwitch from './ThemeSwitch';
@@ -21,6 +22,20 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ theme, onToggleTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+
+  const handleSmoothNav = (event: MouseEvent<HTMLAnchorElement>, href: string, closeMenu = false) => {
+    if (!href.startsWith('#')) {
+      if (closeMenu) setIsMobileMenuOpen(false);
+      return;
+    }
+    const sectionId = href.slice(1);
+    const target = document.getElementById(sectionId);
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.history.replaceState(null, '', href);
+    if (closeMenu) setIsMobileMenuOpen(false);
+  };
 
   useEffect(() => {
     const sections = navLinks
@@ -51,7 +66,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, onToggleTheme }) => {
     <>
       <header className="portfolio-mobile-nav lg:hidden fixed top-0 left-0 right-0 z-50 px-4 py-3">
         <div className="portfolio-mobile-bar">
-          <a href="#home" className="flex items-center gap-2">
+          <a href="#home" className="flex items-center gap-2" onClick={(e) => handleSmoothNav(e, '#home')}>
             <img src={logo} alt="Logo" className="h-8 w-8 rounded-lg object-cover border border-white/10" />
             <span className="text-sm font-semibold tracking-wide text-white">
               Khalid <span className="text-neon-blue">Muhammad</span>
@@ -73,7 +88,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, onToggleTheme }) => {
       <header className="hidden lg:block fixed top-0 left-0 right-0 z-40 px-5 py-4">
         <div className="portfolio-topbar">
           <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-            <a href="#home" className="justify-self-start flex items-center gap-2">
+            <a href="#home" className="justify-self-start flex items-center gap-2" onClick={(e) => handleSmoothNav(e, '#home')}>
               <img src={logo} alt="Logo" className="h-9 w-9 rounded-xl object-cover border border-white/10" />
               <span className="text-sm font-semibold text-white">
                 Khalid <span className="text-neon-blue">Muhammad</span>
@@ -83,11 +98,12 @@ const Navbar: React.FC<NavbarProps> = ({ theme, onToggleTheme }) => {
               {navLinks.map((link) => {
                 const isActive = activeSection === link.sectionId;
                 return (
-                  <a
-                    key={link.name}
-                    href={link.href}
-                    className={`portfolio-top-link ${isActive ? 'active' : ''}`}
-                  >
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className={`portfolio-top-link ${isActive ? 'active' : ''}`}
+                      onClick={(e) => handleSmoothNav(e, link.href)}
+                    >
                     {link.icon}
                     <span>{link.name}</span>
                   </a>
@@ -137,7 +153,7 @@ const Navbar: React.FC<NavbarProps> = ({ theme, onToggleTheme }) => {
                       key={link.name}
                       href={link.href}
                       className={`portfolio-mobile-link ${isActive ? 'active' : ''}`}
-                      onClick={() => setIsMobileMenuOpen(false)}
+                      onClick={(e) => handleSmoothNav(e, link.href, true)}
                     >
                       {link.icon}
                       <span>{link.name}</span>

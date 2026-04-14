@@ -9,8 +9,8 @@ const LoadingScreen: React.FC<Props> = ({ onComplete }) => {
   const [closing, setClosing] = useState(false);
 
   useEffect(() => {
-    const closeTimer = setTimeout(() => setClosing(true), 2200);
-    const doneTimer = setTimeout(onComplete, 3500);
+    const closeTimer = setTimeout(() => setClosing(true), 900);
+    const doneTimer = setTimeout(onComplete, 1650);
     return () => {
       clearTimeout(closeTimer);
       clearTimeout(doneTimer);
@@ -25,7 +25,7 @@ const LoadingScreen: React.FC<Props> = ({ onComplete }) => {
       }}
       initial={{ y: 0 }}
       animate={closing ? { y: '-100%' } : { y: 0 }}
-      transition={{ duration: 1.25, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="loader-terminal-shell">
         <div className="loader-terminal-head">terminal://loading</div>

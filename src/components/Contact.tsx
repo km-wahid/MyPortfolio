@@ -66,7 +66,7 @@ const Contact: React.FC<ContactProps> = ({ content, socials }) => {
   };
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden">
+    <section id="contact" className="py-14 sm:py-16 md:py-24 relative overflow-hidden">
       {/* Background radial */}
       <div className="absolute inset-0 pointer-events-none" style={{
         background: 'radial-gradient(ellipse 60% 50% at 70% 50%, rgba(178,75,243,0.04) 0%, transparent 70%)',
@@ -80,13 +80,13 @@ const Contact: React.FC<ContactProps> = ({ content, socials }) => {
           variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.15 } } }}
         >
           {/* Header */}
-          <motion.div variants={itemVariants} className="text-center mb-16">
+          <motion.div variants={itemVariants} className="text-center mb-10 sm:mb-14 md:mb-16">
             <div className="flex justify-center mb-4">
               <span className="section-tag" style={{ color: '#ff7b00', borderColor: 'rgba(255,123,0,0.3)', background: 'rgba(255,123,0,0.05)' }}>
                 Contact
               </span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               <span className="text-gradient-orange">{content.title}</span>
             </h2>
             <p className="text-gray-400 max-w-xl mx-auto">
@@ -94,7 +94,7 @@ const Contact: React.FC<ContactProps> = ({ content, socials }) => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8">
             {/* Left: info */}
             <motion.div variants={leftVariants} className="lg:col-span-2 space-y-6">
               {/* Email card */}
@@ -123,14 +123,14 @@ const Contact: React.FC<ContactProps> = ({ content, socials }) => {
                   </div>
                   <h3 className="font-semibold text-white">Connect With Me</h3>
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-3 flex-wrap">
                   {socials.map((s) => (
                     <motion.a
                       key={s.label}
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl text-gray-400 hover:text-white transition-all duration-300"
+                       className="flex-1 min-w-[92px] flex flex-col items-center gap-1.5 py-3 rounded-xl text-gray-400 hover:text-white transition-all duration-300"
                       style={{
                         background:
                           s.label === 'GitHub'
@@ -164,7 +164,7 @@ const Contact: React.FC<ContactProps> = ({ content, socials }) => {
 
             {/* Right: form */}
             <motion.div variants={rightVariants} className="lg:col-span-3">
-              <div className="glass glass-hover rounded-2xl p-8 relative overflow-hidden">
+               <div className="glass glass-hover rounded-2xl p-5 sm:p-6 md:p-8 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-32 h-32 pointer-events-none" style={{
                   background: 'radial-gradient(circle, rgba(178,75,243,0.05) 0%, transparent 70%)',
                 }} />

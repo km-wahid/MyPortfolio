@@ -11,14 +11,14 @@ const Services: React.FC<ServicesProps> = ({ content }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   return (
-    <section id="services" className="py-16 md:py-20 relative overflow-hidden">
+    <section id="services" className="py-12 sm:py-14 md:py-20 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div ref={ref} initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}>
-          <div className="text-center mb-12">
+          <div className="text-center mb-10 sm:mb-12">
             <div className="flex justify-center mb-4">
               <span className="section-tag">Services</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               <span className="text-gradient">{content.title}</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto mb-6">
@@ -29,7 +29,7 @@ const Services: React.FC<ServicesProps> = ({ content }) => {
                 href={content.fiverrUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="neon-button-blue flex items-center gap-2 text-sm"
+                className="neon-button-blue flex items-center justify-center gap-2 text-sm w-full sm:w-auto"
               >
                 {content.fiverrLabel} <ExternalLink className="h-4 w-4" />
               </a>
@@ -37,18 +37,18 @@ const Services: React.FC<ServicesProps> = ({ content }) => {
                 href={content.freelancerUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="neon-button-orange flex items-center gap-2 text-sm"
+                className="neon-button-orange flex items-center justify-center gap-2 text-sm w-full sm:w-auto"
               >
                 {content.freelancerLabel} <ExternalLink className="h-4 w-4" />
               </a>
             </div>
           </div>
 
-          <div className="flex gap-6 overflow-x-auto pb-2 services-scroll-row">
+          <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-2 services-scroll-row">
             {content.items.map((service, index) => (
               <motion.div
                 key={service.id}
-                className="glass rounded-2xl p-6 glass-hover h-full flex flex-col min-w-[320px] md:min-w-[360px] max-w-[420px] flex-shrink-0"
+                className="glass rounded-2xl p-5 sm:p-6 glass-hover h-full flex flex-col min-w-[85vw] sm:min-w-[320px] md:min-w-[360px] max-w-[85vw] sm:max-w-[420px] flex-shrink-0"
                 initial={{ opacity: 0, y: 30 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: index * 0.12, duration: 0.55 }}
@@ -61,7 +61,7 @@ const Services: React.FC<ServicesProps> = ({ content }) => {
                   {index % 3 === 1 && <Rocket className="h-5 w-5" />}
                   {index % 3 === 2 && <Briefcase className="h-5 w-5" />}
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{service.title}</h3>
+                <h3 className="text-lg sm:text-xl font-semibold mb-3">{service.title}</h3>
                 <p className="text-gray-400 mb-4 leading-relaxed">{service.description}</p>
                 <ul className="space-y-2 mb-6">
                   {service.highlights.map((item) => (

@@ -53,7 +53,7 @@ const About: React.FC<AboutProps> = ({ content }) => {
   ];
 
   return (
-    <section id="about" className="py-16 md:py-20 relative overflow-hidden">
+    <section id="about" className="py-12 sm:py-14 md:py-20 relative overflow-hidden">
       {/* Glow divider top */}
       <div className="glow-divider w-2/3 mb-0" />
 
@@ -66,20 +66,20 @@ const About: React.FC<AboutProps> = ({ content }) => {
           className="relative z-10"
         >
           {/* Section header */}
-          <motion.div variants={itemVariants} className="text-center mb-16">
+          <motion.div variants={itemVariants} className="text-center mb-10 sm:mb-14 md:mb-16">
             <div className="flex justify-center mb-4">
               <span className="section-tag">About Me</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold">
               {content.title} <span className="text-gradient">{content.subtitle}</span>
             </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
             {/* Bio card */}
             <motion.div variants={slideLeft}>
               <div
-                className="glass rounded-2xl p-8 glass-hover relative overflow-hidden"
+                className="glass rounded-2xl p-5 sm:p-6 md:p-8 glass-hover relative overflow-hidden"
                 style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}
               >
                 {/* Corner accent */}
@@ -95,7 +95,7 @@ const About: React.FC<AboutProps> = ({ content }) => {
                 {content.paragraphs.map((paragraph, index) => (
                   <p
                     key={`${paragraph.slice(0, 20)}-${index}`}
-                    className={`text-gray-300 text-lg leading-relaxed ${index < content.paragraphs.length - 1 ? 'mb-5' : ''}`}
+                    className={`text-gray-300 text-base sm:text-lg leading-relaxed ${index < content.paragraphs.length - 1 ? 'mb-5' : ''}`}
                   >
                     {paragraph}
                   </p>
@@ -136,7 +136,7 @@ const About: React.FC<AboutProps> = ({ content }) => {
         </motion.div>
       </div>
 
-      <div className="glow-divider w-2/3 mt-24" />
+      <div className="glow-divider w-2/3 mt-16 sm:mt-24" />
     </section>
   );
 };

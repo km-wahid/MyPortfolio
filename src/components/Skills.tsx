@@ -65,7 +65,7 @@ const Skills: React.FC<SkillsProps> = ({ content }) => {
   }, []);
 
   return (
-    <section id="skills" className="py-16 md:py-20 relative overflow-hidden" ref={sectionRef}>
+    <section id="skills" className="py-12 sm:py-14 md:py-20 relative overflow-hidden" ref={sectionRef}>
       {/* Dark glass background */}
       <div className="absolute inset-0" style={{
         background: 'linear-gradient(180deg, rgba(11,15,26,0) 0%, rgba(12,17,24,0.6) 50%, rgba(11,15,26,0) 100%)',
@@ -77,15 +77,15 @@ const Skills: React.FC<SkillsProps> = ({ content }) => {
           initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
           animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
           transition={{ duration: 0.75 }}
-          className="mb-14"
+          className="mb-10 sm:mb-14"
         >
           <div className="flex justify-center mb-4">
             <span className="section-tag">Tech Stack</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
             <span className="text-gradient">{content.title}</span>
           </h2>
-          <p className="text-gray-400 mt-3 text-sm max-w-md mx-auto">
+            <p className="text-gray-400 mt-3 text-sm max-w-md mx-auto px-2">
             {content.subtitle}
           </p>
         </motion.div>
@@ -99,14 +99,14 @@ const Skills: React.FC<SkillsProps> = ({ content }) => {
           transition={{ duration: 0.7, delay: 0.2 }}
         >
           {/* Edge fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+          <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-20 z-10 pointer-events-none"
             style={{ background: 'linear-gradient(90deg, #0B0F1A, transparent)' }} />
-          <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-20 z-10 pointer-events-none"
             style={{ background: 'linear-gradient(270deg, #0B0F1A, transparent)' }} />
 
           {scrollWidth > 0 && (
             <motion.div
-              className="flex gap-6 whitespace-nowrap py-2"
+              className="flex gap-4 sm:gap-6 whitespace-nowrap py-2"
               animate={{ x: [0, -scrollWidth] }}
               transition={{ repeat: Infinity, duration: 28, ease: "linear" }}
             >
@@ -115,16 +115,16 @@ const Skills: React.FC<SkillsProps> = ({ content }) => {
                   key={i}
                   whileHover={{ scale: 1.12, y: -6 }}
                   transition={{ type: "spring", stiffness: 300, damping: 12 }}
-                  className="flex flex-col items-center text-center min-w-[100px] group"
+                  className="flex flex-col items-center text-center min-w-[88px] sm:min-w-[100px] group"
                 >
                   <div
-                    className="w-16 h-16 rounded-xl flex items-center justify-center mb-2 transition-all duration-300"
+                    className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center mb-2 transition-all duration-300"
                     style={{
                       background: skill.color,
                       border: '1px solid rgba(255,255,255,0.06)',
                     }}
                   >
-                    <div className="text-3xl transition-transform duration-300 group-hover:scale-110">
+                    <div className="text-2xl sm:text-3xl transition-transform duration-300 group-hover:scale-110">
                       {skill.icon}
                     </div>
                   </div>
@@ -144,14 +144,14 @@ const Skills: React.FC<SkillsProps> = ({ content }) => {
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.35 }}
         >
-          <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+          <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-20 z-10 pointer-events-none"
             style={{ background: 'linear-gradient(90deg, #0B0F1A, transparent)' }} />
-          <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
+          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-20 z-10 pointer-events-none"
             style={{ background: 'linear-gradient(270deg, #0B0F1A, transparent)' }} />
 
           {scrollWidth > 0 && (
             <motion.div
-              className="flex gap-6 whitespace-nowrap py-2"
+              className="flex gap-4 sm:gap-6 whitespace-nowrap py-2"
               animate={{ x: [-scrollWidth, 0] }}
               transition={{ repeat: Infinity, duration: 32, ease: "linear" }}
             >
@@ -160,16 +160,16 @@ const Skills: React.FC<SkillsProps> = ({ content }) => {
                   key={i}
                   whileHover={{ scale: 1.12, y: -6 }}
                   transition={{ type: "spring", stiffness: 300, damping: 12 }}
-                  className="flex flex-col items-center text-center min-w-[100px] group"
+                  className="flex flex-col items-center text-center min-w-[88px] sm:min-w-[100px] group"
                 >
                   <div
-                    className="w-16 h-16 rounded-xl flex items-center justify-center mb-2 transition-all duration-300"
+                    className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center mb-2 transition-all duration-300"
                     style={{
                       background: skill.color,
                       border: '1px solid rgba(255,255,255,0.06)',
                     }}
                   >
-                    <div className="text-3xl group-hover:scale-110 transition-transform duration-300">
+                    <div className="text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300">
                       {skill.icon}
                     </div>
                   </div>
@@ -183,7 +183,7 @@ const Skills: React.FC<SkillsProps> = ({ content }) => {
         </motion.div>
 
         {/* Glow divider */}
-        <div className="mt-14 glow-divider w-2/3" />
+        <div className="mt-10 sm:mt-14 glow-divider w-2/3" />
       </div>
     </section>
   );

@@ -40,7 +40,7 @@ const Footer: React.FC<FooterProps> = ({ content, socials }) => {
           </motion.a>
 
           {/* Nav links */}
-          <nav className="flex items-center gap-6">
+          <nav className="flex items-center justify-center flex-wrap gap-x-5 gap-y-2">
             {navLinks.map((l) => (
               <a key={l.name} href={l.href}
                 className="text-sm text-gray-500 hover:text-neon-blue transition-colors duration-200 font-medium portfolio-footer-link">

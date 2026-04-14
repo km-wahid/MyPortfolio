@@ -161,7 +161,7 @@ const Projects: React.FC<ProjectsProps> = ({ content }) => {
   const closeProjectDetails = () => { setSelectedProject(null); document.body.style.overflow = 'auto'; };
 
   return (
-    <section id="projects" className="py-24 relative overflow-hidden">
+    <section id="projects" className="py-14 sm:py-16 md:py-24 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
@@ -170,7 +170,7 @@ const Projects: React.FC<ProjectsProps> = ({ content }) => {
         >
           {/* Header */}
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-10 sm:mb-14 md:mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
@@ -178,7 +178,7 @@ const Projects: React.FC<ProjectsProps> = ({ content }) => {
             <div className="flex justify-center mb-4">
               <span className="section-tag">Projects</span>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
               <span className="text-gradient">{content.title}</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
@@ -187,7 +187,7 @@ const Projects: React.FC<ProjectsProps> = ({ content }) => {
 
             {/* Mini stats */}
             <motion.div
-              className="flex justify-center gap-12 mt-10"
+              className="flex flex-wrap justify-center gap-6 sm:gap-12 mt-8 sm:mt-10"
               initial={{ opacity: 0, y: 16 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.35 }}
@@ -212,7 +212,7 @@ const Projects: React.FC<ProjectsProps> = ({ content }) => {
           </motion.div>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8" style={{ perspective: '1000px' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8" style={{ perspective: '1000px' }}>
             {content.items.map((project, i) => (
               <TiltCard key={project.id} project={project} onClick={() => openProjectDetails(project)} index={i} inView={inView} />
             ))}
@@ -229,7 +229,7 @@ const Projects: React.FC<ProjectsProps> = ({ content }) => {
               href="https://github.com/km-wahid"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 group px-8 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 project-see-all-link"
+              className="flex w-full sm:w-auto items-center justify-center gap-3 group px-5 sm:px-8 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 project-see-all-link"
               style={{
                 border: '1px solid rgba(0,245,255,0.25)',
                 background: 'rgba(0,245,255,0.05)',

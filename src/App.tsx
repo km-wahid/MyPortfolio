@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -9,11 +9,16 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import NeuralBackground from './components/NeuralBackground';
 import LoadingScreen from './components/LoadingScreen';
-import AdminPanel from './components/AdminPanel';
 import { loadSiteContent } from './content/siteContent';
 
+const AdminPanel = lazy(() => import('./components/AdminPanel'));
+
 const App: React.FC = () => {
-  const [loading, setLoading] = useState(true);
+  const isAdminRoute = window.location.pathname.startsWith('/admin');
+  const [loading, setLoading] = useState(() => {
+    if (isAdminRoute) return false;
+    return sessionStorage.getItem('portfolio-loader-seen') !== '1';
+  });
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     const saved = localStorage.getItem('theme-mode');
     return saved === 'light' ? 'light' : 'dark';
@@ -28,14 +33,22 @@ const App: React.FC = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
-  const isAdminRoute = window.location.pathname.startsWith('/admin');
+  const handleLoadingComplete = () => {
+    sessionStorage.setItem('portfolio-loader-seen', '1');
+    setLoading(false);
+  };
+
   const content = loadSiteContent();
 
   return (
     <>
-      {isAdminRoute && <AdminPanel />}
+      {isAdminRoute && (
+        <Suspense fallback={<div className="min-h-screen bg-dark-900" />}>
+          <AdminPanel />
+        </Suspense>
+      )}
 
-      {!isAdminRoute && loading && <LoadingScreen onComplete={() => setLoading(false)} />}
+      {!isAdminRoute && loading && <LoadingScreen onComplete={handleLoadingComplete} />}
 
       {!loading && !isAdminRoute && (
         <div className="relative min-h-screen overflow-hidden portfolio-app-shell">
