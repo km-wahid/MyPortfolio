@@ -1,7 +1,7 @@
 import { Github, Linkedin, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import { FooterContent, SocialLink } from "../content/siteContent";
-const logo = "/dist/assets/coding-Cvd-eEEH.png";
+import logo from "../assets/coding.png";
 
 interface FooterProps {
   content: FooterContent;

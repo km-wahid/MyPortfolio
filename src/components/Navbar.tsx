@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Download, Home, User, Wrench, Briefcase, ShoppingBag, Mail } from 'lucide-react';
 import ThemeSwitch from './ThemeSwitch';
-const logo = '/dist/assets/coding-Cvd-eEEH.png';
+import logo from '../assets/coding.png';
 
 const navLinks = [
   { name: 'Home', href: '#home', icon: <Home className="h-4 w-4" />, sectionId: 'home' },
