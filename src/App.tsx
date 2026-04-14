@@ -73,7 +73,7 @@ const App: React.FC = () => {
           <Navbar theme={theme} onToggleTheme={toggleTheme} />
           <main className="portfolio-main-content">
             <div className="portfolio-section-frame hero">
-              <Hero content={content.hero} socials={content.socials} />
+              <Hero content={content.hero} socials={content.socials} theme={theme} />
             </div>
             <div className="portfolio-section-frame">
               <About content={content.about} />

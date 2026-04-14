@@ -70,10 +70,10 @@ const TiltCard: React.FC<{ project: Project; onClick: () => void; index: number;
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark-300 via-dark-300/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-dark-300 via-dark-300/40 to-transparent project-image-overlay" />
 
         {/* Hover tech stack reveal */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300"
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 project-stack-overlay"
           style={{ background: 'rgba(11,15,26,0.85)', backdropFilter: 'blur(8px)' }}>
           <div className="flex flex-wrap gap-2 justify-center px-4">
             {project.tech.map((t, i) => (
@@ -97,13 +97,13 @@ const TiltCard: React.FC<{ project: Project; onClick: () => void; index: number;
           <div className="flex flex-wrap gap-1.5">
             {project.tech.slice(0, 3).map((t, i) => (
               <span key={i}
-                className="text-xs px-2 py-0.5 rounded-full"
+                className="text-xs px-2 py-0.5 rounded-full project-mini-chip"
                 style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)' }}>
                 {t}
               </span>
             ))}
             {project.tech.length > 3 && (
-              <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)' }}>
+              <span className="text-xs px-2 py-0.5 rounded-full project-mini-chip" style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)' }}>
                 +{project.tech.length - 3}
               </span>
             )}
@@ -229,7 +229,7 @@ const Projects: React.FC<ProjectsProps> = ({ content }) => {
               href="https://github.com/km-wahid"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 group px-8 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300"
+              className="flex items-center gap-3 group px-8 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 project-see-all-link"
               style={{
                 border: '1px solid rgba(0,245,255,0.25)',
                 background: 'rgba(0,245,255,0.05)',
@@ -251,7 +251,7 @@ const Projects: React.FC<ProjectsProps> = ({ content }) => {
       {/* Modal */}
       {selectedProject && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 project-modal-overlay"
           style={{ background: 'rgba(11,15,26,0.92)', backdropFilter: 'blur(12px)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

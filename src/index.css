@@ -878,6 +878,14 @@ html.theme-light body {
   color: #0f172a;
 }
 
+html.theme-light ::-webkit-scrollbar-track {
+  background: #dbe7ff;
+}
+
+html.theme-light ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #1E67C6 0%, #8b5cf6 100%);
+}
+
 html.theme-light .portfolio-app-shell {
   background:
     radial-gradient(circle at 12% 10%, rgba(30, 103, 198, 0.12), transparent 30%),
@@ -898,9 +906,21 @@ html.theme-light .portfolio-mobile-menu {
   color: #0f172a;
 }
 
+html.theme-light .portfolio-section-frame:hover {
+  border-color: rgba(30, 103, 198, 0.28);
+  box-shadow: 0 16px 36px rgba(30, 64, 175, 0.16), 0 0 0 1px rgba(30, 103, 198, 0.08);
+}
+
 html.theme-light .portfolio-top-link,
 html.theme-light .portfolio-mobile-link {
   color: #334155;
+}
+
+html.theme-light .portfolio-top-link:hover,
+html.theme-light .portfolio-mobile-link:hover {
+  color: #0f172a;
+  border-color: rgba(148, 163, 184, 0.35);
+  background: rgba(255, 255, 255, 0.7);
 }
 
 html.theme-light .portfolio-top-link.active,
@@ -920,10 +940,81 @@ html.theme-light .text-white {
   color: #0f172a !important;
 }
 
+html.theme-light .text-gray-200,
+html.theme-light .text-gray-300 {
+  color: #334155 !important;
+}
+
 html.theme-light .text-gray-400,
 html.theme-light .text-gray-500,
 html.theme-light .text-gray-600 {
   color: #475569 !important;
+}
+
+html.theme-light .neon-text-blue {
+  color: #1E67C6;
+  text-shadow: 0 0 10px rgba(30, 103, 198, 0.2);
+}
+
+html.theme-light .hover-rotate-btn {
+  color: #ffffff;
+}
+
+html.theme-light .hover-rotate-btn::before {
+  background: linear-gradient(320deg, rgba(30, 103, 198, 0.9), rgba(109, 74, 255, 0.75), rgba(206, 132, 207, 0.65));
+}
+
+html.theme-light .hero-light-resume {
+  color: #6d28d9;
+  border-color: rgba(139, 92, 246, 0.45);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(79, 70, 229, 0.1));
+}
+
+html.theme-light .portfolio-footer-card {
+  border-color: rgba(148, 163, 184, 0.35) !important;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.95), rgba(240, 247, 255, 0.95)) !important;
+}
+
+html.theme-light .portfolio-footer-link {
+  color: #475569 !important;
+}
+
+html.theme-light .portfolio-footer-link:hover {
+  color: #1E67C6 !important;
+}
+
+html.theme-light .portfolio-footer-social {
+  color: #475569 !important;
+  background: rgba(30, 103, 198, 0.06) !important;
+  border-color: rgba(148, 163, 184, 0.35) !important;
+}
+
+html.theme-light .portfolio-footer-bottomline {
+  border-top-color: rgba(148, 163, 184, 0.28) !important;
+}
+
+html.theme-light .project-image-overlay {
+  background: linear-gradient(to top, rgba(14, 37, 64, 0.74), rgba(14, 37, 64, 0.25), transparent);
+}
+
+html.theme-light .project-stack-overlay {
+  background: rgba(230, 240, 255, 0.86) !important;
+}
+
+html.theme-light .project-mini-chip {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(148, 163, 184, 0.4) !important;
+  color: #334155 !important;
+}
+
+html.theme-light .project-see-all-link {
+  border-color: rgba(30, 103, 198, 0.35) !important;
+  background: rgba(30, 103, 198, 0.1) !important;
+  color: #1E67C6 !important;
+}
+
+html.theme-light .project-modal-overlay {
+  background: rgba(226, 236, 255, 0.72) !important;
 }
 
 /* ─────────────────── DINO LOADER ─────────────────── */
