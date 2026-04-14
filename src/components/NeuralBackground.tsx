@@ -24,8 +24,9 @@ const NeuralBackground: React.FC = () => {
     let h = (canvas.height = window.innerHeight);
     let scrollY = window.scrollY;
 
-    const NODE_COUNT = 70;
-    const MAX_DIST = 160;
+    const isSmallScreen = window.innerWidth < 768;
+    const NODE_COUNT = isSmallScreen ? 30 : 52;
+    const MAX_DIST = isSmallScreen ? 110 : 145;
     const nodes: Node[] = Array.from({ length: NODE_COUNT }, () => ({
       x: Math.random() * w,
       y: Math.random() * h,

@@ -17,12 +17,12 @@ export default {
           900: '#0B0F1A',
         },
         neon: {
-          blue:   '#00F5FF',
-          cyan:   '#00E5FF',
+          blue:   '#13FFAA',
+          cyan:   '#00F5FF',
           orange: '#ff7b00',
-          purple: '#B24BF3',
-          pink:   '#FF2D78',
-          green:  '#00FF9F',
+          purple: '#CE84CF',
+          pink:   '#DD335C',
+          green:  '#13FFAA',
         },
         accent: {
           success: '#00ff66',

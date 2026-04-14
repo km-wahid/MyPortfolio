@@ -1,8 +1,13 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Brain, Cpu, Rocket, Code } from 'lucide-react';
+import { AboutContent } from '../content/siteContent';
 
-const About: React.FC = () => {
+interface AboutProps {
+  content: AboutContent;
+}
+
+const About: React.FC<AboutProps> = ({ content }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   const containerVariants = {
@@ -48,7 +53,7 @@ const About: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden">
+    <section id="about" className="py-16 md:py-20 relative overflow-hidden">
       {/* Glow divider top */}
       <div className="glow-divider w-2/3 mb-0" />
 
@@ -66,7 +71,7 @@ const About: React.FC = () => {
               <span className="section-tag">About Me</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold">
-              The Engineer <span className="text-gradient">Behind the Code</span>
+              {content.title} <span className="text-gradient">{content.subtitle}</span>
             </h2>
           </motion.div>
 
@@ -87,16 +92,14 @@ const About: React.FC = () => {
                   borderRadius: '100% 0 0 0',
                 }} />
 
-                <p className="text-gray-300 text-lg leading-relaxed mb-5">
-                  Hi, I'm a Software developer on a mission to understanding complex system and find the best solution. I
-                  don't just learn — I reverse-engineer. I dive deep into backend architecture, automation, and
-                  full-stack development with the mindset of a builder and strategist.
-                </p>
-                <p className="text-gray-300 text-lg leading-relaxed">
-                  With a background in Django and a passion for system design, I approach every project as an
-                  opportunity to build something exceptional. I believe in elegant automation, robust architecture, and
-                  code that stands the test of time.
-                </p>
+                {content.paragraphs.map((paragraph, index) => (
+                  <p
+                    key={`${paragraph.slice(0, 20)}-${index}`}
+                    className={`text-gray-300 text-lg leading-relaxed ${index < content.paragraphs.length - 1 ? 'mb-5' : ''}`}
+                  >
+                    {paragraph}
+                  </p>
+                ))}
               </div>
             </motion.div>
 

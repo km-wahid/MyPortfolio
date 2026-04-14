@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Github, ExternalLink, X, Layers } from 'lucide-react';
+import { ProjectsContent } from '../content/siteContent';
 
 interface Project {
   id: number;
@@ -148,64 +149,13 @@ const TiltCard: React.FC<{ project: Project; onClick: () => void; index: number;
   );
 };
 
-const Projects: React.FC = () => {
+interface ProjectsProps {
+  content: ProjectsContent;
+}
+
+const Projects: React.FC<ProjectsProps> = ({ content }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.05 });
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: 'WhatsApp Campaign Manager',
-      image: 'https://images.pexels.com/photos/5082579/pexels-photo-5082579.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      tech: ['Django', 'Selenium', 'PostgreSQL', 'Redis', 'Bootstrap'],
-      problem: 'Manual WhatsApp messaging was limiting business outreach capabilities.',
-      solution: 'Automated WhatsApp messaging platform with QR code management and scheduling.',
-      impact: 'Increased campaign efficiency by 300% and enabled simultaneous multi-channel outreach.',
-      github: 'https://github.com/km-wahid/Whatsapp_Automation',
-      demo: 'In Production Server',
-      description: 'A comprehensive WhatsApp automation platform built with Django and Selenium. The system manages Chrome profiles, handles QR code authentication, and schedules messages to be sent to customized contact groups. Features include message templating, media attachment support, and detailed analytics dashboards.',
-      accentColor: '#00F5FF',
-    },
-    {
-      id: 2,
-      title: 'CLO Performance Evaluator',
-      image: 'https://images.pexels.com/photos/7567529/pexels-photo-7567529.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      tech: ['Java', 'Jetty', 'MySQL', 'Chart.js', 'Bootstrap'],
-      problem: 'Tracking performance metrics for CLOs required manual calculations and analysis.',
-      solution: 'Automated evaluation system with real-time dashboards and reporting.',
-      impact: 'Reduced evaluation time from days to minutes and improved accuracy by 95%.',
-      github: 'https://github.com/km-wahid/CLOAssessment',
-      demo: 'https://cloassessment.onrender.com/',
-      description: 'A Java-based application running on Jetty server that evaluates the performance of Collateralized Loan Obligations. The system imports financial data, runs complex calculations, and generates detailed performance reports with visual charts and export capabilities.',
-      accentColor: '#B24BF3',
-    },
-    {
-      id: 3,
-      title: 'IoT Air Quality Monitoring System',
-      image: 'https://images.pexels.com/photos/374074/pexels-photo-374074.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      tech: ['ESP32', 'MQTT', 'InfluxDB', 'Grafana', 'AWS'],
-      problem: 'Real-time monitoring of environmental air quality was not available for small areas.',
-      solution: 'IoT-based system with ESP32 sensors sending live data to InfluxDB and visualized in Grafana dashboards.',
-      impact: 'Enabled continuous monitoring of air quality and real-time data visualization on AWS.',
-      github: 'https://github.com/km-wahid/Air-Quality-with-ESP32',
-      demo: 'Deployed on AWS (no preview)',
-      description: 'A real-time IoT Air Quality Monitoring System using ESP32 sensors that collect environmental data and transmit via MQTT. Data is stored in InfluxDB and visualized in Grafana dashboards deployed on AWS. The system provides live monitoring, historical analysis, and alerting for key air quality metrics.',
-      accentColor: '#00FF9F',
-    },
-    {
-      id: 4,
-      title: 'Dockerized YouTube Downloader',
-      image: 'https://images.pexels.com/photos/2265482/pexels-photo-2265482.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-      tech: ['Python', 'Docker', 'yt-dlp', 'FastAPI', 'React'],
-      problem: 'Existing downloaders lacked reliability and format options.',
-      solution: 'Containerized application with progress tracking and format selection.',
-      impact: 'Achieved 99.8% download success rate and supported 50+ video platforms.',
-      github: 'https://github.com/km-wahid/yt-downloder',
-      demo: 'https://yt-downloder-rmgg.onrender.com/',
-      description: 'A containerized YouTube downloader built with Python and yt-dlp, wrapped in a FastAPI backend and React frontend. The application features real-time progress tracking, format selection, batch downloading, and automatic media conversion options. The Docker implementation ensures consistent behavior across different environments.',
-      accentColor: '#ff7b00',
-    },
-  ];
 
   const openProjectDetails = (p: Project) => { setSelectedProject(p); document.body.style.overflow = 'hidden'; };
   const closeProjectDetails = () => { setSelectedProject(null); document.body.style.overflow = 'auto'; };
@@ -229,10 +179,10 @@ const Projects: React.FC = () => {
               <span className="section-tag">Projects</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-gradient">Systems</span> I've Built
+              <span className="text-gradient">{content.title}</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Each project represents a problem solved, a system architected, and value delivered.
+              {content.subtitle}
             </p>
 
             {/* Mini stats */}
@@ -243,7 +193,7 @@ const Projects: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.35 }}
             >
               {[
-                { value: '20+', label: 'Projects',      color: '#00F5FF' },
+                { value: `${content.items.length}+`, label: 'Projects', color: '#00F5FF' },
                 { value: '15+', label: 'Technologies',  color: '#B24BF3' },
                 { value: '2',   label: 'In Production', color: '#00ff9f' },
               ].map((s, i) => (
@@ -263,7 +213,7 @@ const Projects: React.FC = () => {
 
           {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8" style={{ perspective: '1000px' }}>
-            {projects.map((project, i) => (
+            {content.items.map((project, i) => (
               <TiltCard key={project.id} project={project} onClick={() => openProjectDetails(project)} index={i} inView={inView} />
             ))}
           </div>

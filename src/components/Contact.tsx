@@ -3,8 +3,14 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Github, Linkedin, Mail, Send, MessageCircle } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+import { ContactContent, SocialLink } from '../content/siteContent';
 
-const Contact: React.FC = () => {
+interface ContactProps {
+  content: ContactContent;
+  socials: SocialLink[];
+}
+
+const Contact: React.FC<ContactProps> = ({ content, socials }) => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
@@ -59,12 +65,6 @@ const Contact: React.FC = () => {
     }
   };
 
-  const socials = [
-    { href: 'https://github.com/km-wahid', icon: <Github className="h-5 w-5" />, label: 'GitHub', color: 'rgba(255,255,255,0.1)' },
-    { href: 'https://www.linkedin.com/in/khalid-muhammad-wahid-0263b01b3/', icon: <Linkedin className="h-5 w-5" />, label: 'LinkedIn', color: 'rgba(0,119,181,0.2)' },
-    { href: 'mailto:khalidmuhammad.official@gmail.com', icon: <Mail className="h-5 w-5" />, label: 'Email', color: 'rgba(0,245,255,0.15)' },
-  ];
-
   return (
     <section id="contact" className="py-24 relative overflow-hidden">
       {/* Background radial */}
@@ -87,11 +87,10 @@ const Contact: React.FC = () => {
               </span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Let's <span className="text-gradient-orange">Connect</span>
+              <span className="text-gradient-orange">{content.title}</span>
             </h2>
             <p className="text-gray-400 max-w-xl mx-auto">
-              Have a project in mind or just want to chat about technology? I'm always open to new
-              opportunities and collaborations.
+              {content.subtitle}
             </p>
           </motion.div>
 
@@ -110,9 +109,9 @@ const Contact: React.FC = () => {
                   <h3 className="font-semibold text-white">Email Me</h3>
                 </div>
                 <p className="text-gray-500 text-sm mb-1">Reach me at:</p>
-                <a href="mailto:khalidmuhammad.official@gmail.com"
+                <a href={`mailto:${content.email}`}
                   className="text-neon-blue text-sm hover:underline underline-offset-2">
-                  khalidmuhammad.official@gmail.com
+                  {content.email}
                 </a>
               </div>
 
@@ -132,11 +131,21 @@ const Contact: React.FC = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-1 flex flex-col items-center gap-1.5 py-3 rounded-xl text-gray-400 hover:text-white transition-all duration-300"
-                      style={{ background: s.color, border: '1px solid rgba(255,255,255,0.06)' }}
+                      style={{
+                        background:
+                          s.label === 'GitHub'
+                            ? 'rgba(255,255,255,0.1)'
+                            : s.label === 'LinkedIn'
+                              ? 'rgba(0,119,181,0.2)'
+                              : 'rgba(0,245,255,0.15)',
+                        border: '1px solid rgba(255,255,255,0.06)',
+                      }}
                       whileHover={{ y: -3, scale: 1.02 }}
                       title={s.label}
                     >
-                      {s.icon}
+                      {s.label === 'GitHub' && <Github className="h-5 w-5" />}
+                      {s.label === 'LinkedIn' && <Linkedin className="h-5 w-5" />}
+                      {s.label === 'Email' && <Mail className="h-5 w-5" />}
                       <span className="text-xs font-medium">{s.label}</span>
                     </motion.a>
                   ))}
@@ -148,7 +157,7 @@ const Contact: React.FC = () => {
                 <div className="w-2.5 h-2.5 rounded-full bg-accent-success animate-glowPulse flex-shrink-0"
                   style={{ boxShadow: '0 0 8px #00ff66' }} />
                 <span className="text-sm text-gray-300">
-                  Available for new opportunities
+                  {content.availability}
                 </span>
               </div>
             </motion.div>
@@ -249,4 +258,3 @@ const Contact: React.FC = () => {
 };
 
 export default Contact;
-

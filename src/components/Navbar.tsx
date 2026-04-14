@@ -1,120 +1,167 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Cpu, Download } from 'lucide-react';
+import { Menu, X, Download, Home, User, Wrench, Briefcase, ShoppingBag, Mail } from 'lucide-react';
+import ThemeSwitch from './ThemeSwitch';
+const logo = '/dist/assets/coding-Cvd-eEEH.png';
 
-const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
+const navLinks = [
+  { name: 'Home', href: '#home', icon: <Home className="h-4 w-4" />, sectionId: 'home' },
+  { name: 'About', href: '#about', icon: <User className="h-4 w-4" />, sectionId: 'about' },
+  { name: 'Skills', href: '#skills', icon: <Wrench className="h-4 w-4" />, sectionId: 'skills' },
+  { name: 'Projects', href: '#projects', icon: <Briefcase className="h-4 w-4" />, sectionId: 'projects' },
+  { name: 'Services', href: '#services', icon: <ShoppingBag className="h-4 w-4" />, sectionId: 'services' },
+  { name: 'Contact', href: '#contact', icon: <Mail className="h-4 w-4" />, sectionId: 'contact' },
+];
+
+interface NavbarProps {
+  theme: 'dark' | 'light';
+  onToggleTheme: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ theme, onToggleTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const sections = navLinks
+      .map((item) => document.getElementById(item.sectionId))
+      .filter(Boolean) as HTMLElement[];
+
+    const updateActive = () => {
+      const marker = window.scrollY + window.innerHeight * 0.35;
+      let current = 'home';
+      for (const section of sections) {
+        if (section.offsetTop <= marker) {
+          current = section.id;
+        }
+      }
+      setActiveSection(current);
+    };
+
+    updateActive();
+    window.addEventListener('scroll', updateActive, { passive: true });
+    window.addEventListener('resize', updateActive);
+    return () => {
+      window.removeEventListener('scroll', updateActive);
+      window.removeEventListener('resize', updateActive);
+    };
   }, []);
 
-  const navLinks = [
-    { name: 'About',    href: '#about'    },
-    { name: 'Skills',   href: '#skills'   },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact',  href: '#contact'  },
-  ];
-
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? 'navbar-glass' : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Logo */}
-          <motion.a
-            href="#"
-            className="flex items-center space-x-2 group"
-            whileHover={{ scale: 1.02 }}
-          >
-            <div className="relative">
-              <Cpu className="h-6 w-6 text-neon-blue animate-glowPulse" />
-              <div className="absolute inset-0 blur-sm bg-neon-blue opacity-30 rounded-full" />
-            </div>
-            <span className="text-xl font-grotesk font-bold tracking-tight">
-              <span className="text-white">Khalid</span>
-              <span className="neon-text-blue"> Muhammad</span>
+    <>
+      <header className="portfolio-mobile-nav lg:hidden fixed top-0 left-0 right-0 z-50 px-4 py-3">
+        <div className="portfolio-mobile-bar">
+          <a href="#home" className="flex items-center gap-2">
+            <img src={logo} alt="Logo" className="h-8 w-8 rounded-lg object-cover border border-white/10" />
+            <span className="text-sm font-semibold tracking-wide text-white">
+              Khalid <span className="text-neon-blue">Muhammad</span>
             </span>
-          </motion.a>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link, i) => (
-              <motion.a
-                key={link.name}
-                href={link.href}
-                className="relative text-gray-400 hover:text-white transition-colors duration-300 font-medium text-sm tracking-wide group"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 + 0.2 }}
-              >
-                {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-neon-blue transition-all duration-300 group-hover:w-full shadow-sm" style={{ boxShadow: '0 0 6px #00F5FF' }} />
-              </motion.a>
-            ))}
-            <motion.a
-              href="/resume.pdf"
-              download="Khalid_Resume.pdf"
-              className="neon-button-blue flex items-center space-x-2 text-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+          </a>
+          <div className="flex items-center gap-2">
+            <ThemeSwitch checked={theme === 'light'} onChange={onToggleTheme} />
+            <button
+              className="text-gray-300 hover:text-neon-blue transition-colors"
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              aria-label="Toggle menu"
             >
-              <Download className="h-4 w-4" />
-              <span>Resume</span>
-            </motion.a>
-          </nav>
-
-          {/* Mobile toggle */}
-          <button
-            className="md:hidden text-gray-300 hover:text-neon-blue transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+              {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            className="md:hidden navbar-glass border-t border-neon-blue/10"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="px-4 py-4 space-y-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="block py-3 px-4 text-gray-300 hover:text-neon-blue hover:bg-neon-blue/5 rounded-lg transition-all duration-200 font-medium"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </a>
-              ))}
+      <header className="hidden lg:block fixed top-0 left-0 right-0 z-40 px-5 py-4">
+        <div className="portfolio-topbar">
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+            <a href="#home" className="justify-self-start flex items-center gap-2">
+              <img src={logo} alt="Logo" className="h-9 w-9 rounded-xl object-cover border border-white/10" />
+              <span className="text-sm font-semibold text-white">
+                Khalid <span className="text-neon-blue">Muhammad</span>
+              </span>
+            </a>
+            <nav className="flex items-center gap-2 justify-center">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.sectionId;
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className={`portfolio-top-link ${isActive ? 'active' : ''}`}
+                  >
+                    {link.icon}
+                    <span>{link.name}</span>
+                  </a>
+                );
+              })}
+            </nav>
+            <div className="justify-self-end flex items-center gap-3">
+              <ThemeSwitch checked={theme === 'light'} onChange={onToggleTheme} />
               <a
                 href="/resume.pdf"
                 download="Khalid_Resume.pdf"
-                className="flex items-center space-x-2 py-3 px-4 text-neon-blue font-medium"
+                className="portfolio-resume-link"
               >
                 <Download className="h-4 w-4" />
                 <span>Resume</span>
               </a>
             </div>
+          </div>
+        </div>
+      </header>
+
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            className="lg:hidden fixed inset-0 z-40"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <button
+              className="absolute inset-0 bg-black/55 backdrop-blur-sm"
+              onClick={() => setIsMobileMenuOpen(false)}
+              aria-label="Close menu backdrop"
+            />
+            <motion.nav
+              className="absolute top-16 left-4 right-4 rounded-2xl p-4 portfolio-mobile-menu"
+              initial={{ y: -18, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -18, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="space-y-1">
+                {navLinks.map((link) => {
+                  const isActive = activeSection === link.sectionId;
+                  return (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className={`portfolio-mobile-link ${isActive ? 'active' : ''}`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {link.icon}
+                      <span>{link.name}</span>
+                    </a>
+                  );
+                })}
+              </div>
+              <a
+                href="/resume.pdf"
+                download="Khalid_Resume.pdf"
+                className="portfolio-resume-link mt-3"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Download className="h-4 w-4" />
+                <span>Resume</span>
+              </a>
+              <div className="mt-3 flex justify-center">
+                <ThemeSwitch checked={theme === 'light'} onChange={onToggleTheme} />
+              </div>
+            </motion.nav>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 };
 

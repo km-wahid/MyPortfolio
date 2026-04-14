@@ -11,38 +11,50 @@ import {
 import {
   Brain, MessageSquare, RefreshCcw, TrendingUp, Bolt, Puzzle, Database, Cloud,
 } from "lucide-react";
+import { SkillsContent } from "../content/siteContent";
 
-const Skills: React.FC = () => {
+const SKILL_LIBRARY = [
+  { name: "HTML", icon: <SiHtml5 className="text-orange-500" />, color: 'rgba(249,115,22,0.2)' },
+  { name: "CSS", icon: <SiCss3 className="text-blue-500" />, color: 'rgba(59,130,246,0.2)' },
+  { name: "JavaScript", icon: <SiJavascript className="text-yellow-400" />, color: 'rgba(250,204,21,0.2)' },
+  { name: "Python", icon: <SiPython className="text-blue-400" />, color: 'rgba(96,165,250,0.2)' },
+  { name: "C++", icon: <SiCplusplus className="text-blue-500" />, color: 'rgba(59,130,246,0.2)' },
+  { name: "Django", icon: <SiDjango className="text-green-700" />, color: 'rgba(21,128,61,0.2)' },
+  { name: "Git", icon: <SiGit className="text-red-500" />, color: 'rgba(239,68,68,0.2)' },
+  { name: "GitHub", icon: <SiGithub className="text-gray-200" />, color: 'rgba(156,163,175,0.15)' },
+  { name: "Docker", icon: <SiDocker className="text-blue-600" />, color: 'rgba(37,99,235,0.2)' },
+  { name: "NGINX", icon: <SiNginx className="text-green-600" />, color: 'rgba(22,163,74,0.2)' },
+  { name: "Celery", icon: <SiCelery className="text-green-400" />, color: 'rgba(74,222,128,0.2)' },
+  { name: "Redis", icon: <SiRedis className="text-red-600" />, color: 'rgba(220,38,38,0.2)' },
+  { name: "PostgreSQL", icon: <SiPostgresql className="text-blue-700" />, color: 'rgba(29,78,216,0.2)' },
+  { name: "MySQL", icon: <SiMysql className="text-blue-500" />, color: 'rgba(59,130,246,0.2)' },
+  { name: "SQL", icon: <Database className="text-purple-400" />, color: 'rgba(192,132,252,0.2)' },
+  { name: "AWS", icon: <Cloud className="text-orange-400" />, color: 'rgba(251,146,60,0.2)' },
+  { name: "Selenium", icon: <SiSelenium className="text-green-600" />, color: 'rgba(22,163,74,0.2)' },
+  { name: "Scrapy", icon: <SiScrapy className="text-gray-200" />, color: 'rgba(156,163,175,0.15)' },
+  { name: "Problem Solving", icon: <Puzzle className="text-indigo-500" />, color: 'rgba(99,102,241,0.2)' },
+  { name: "Critical Thinking", icon: <Brain className="text-pink-500" />, color: 'rgba(236,72,153,0.2)' },
+  { name: "Communication", icon: <MessageSquare className="text-cyan-400" />, color: 'rgba(34,211,238,0.2)' },
+  { name: "Adaptability", icon: <RefreshCcw className="text-lime-500" />, color: 'rgba(132,204,22,0.2)' },
+  { name: "Growth Mindset", icon: <TrendingUp className="text-orange-400" />, color: 'rgba(251,146,60,0.2)' },
+  { name: "Rapid Learning", icon: <Bolt className="text-teal-400" />, color: 'rgba(45,212,191,0.2)' },
+];
+
+interface SkillsProps {
+  content: SkillsContent;
+}
+
+const Skills: React.FC<SkillsProps> = ({ content }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollWidth, setScrollWidth] = useState(0);
   const [sectionRef, inView] = useInView({ triggerOnce: true, threshold: 0.08 });
 
-  const skills = [
-    { name: "HTML",           icon: <SiHtml5      className="text-orange-500" />,                  color: 'rgba(249,115,22,0.2)' },
-    { name: "CSS",            icon: <SiCss3       className="text-blue-500" />,                    color: 'rgba(59,130,246,0.2)'  },
-    { name: "JavaScript",     icon: <SiJavascript className="text-yellow-400" />,                  color: 'rgba(250,204,21,0.2)'  },
-    { name: "Python",         icon: <SiPython     className="text-blue-400" />,                    color: 'rgba(96,165,250,0.2)'  },
-    { name: "C++",            icon: <SiCplusplus  className="text-blue-500" />,                    color: 'rgba(59,130,246,0.2)'  },
-    { name: "Django",         icon: <SiDjango     className="text-green-700" />,                   color: 'rgba(21,128,61,0.2)'   },
-    { name: "Git",            icon: <SiGit        className="text-red-500" />,                     color: 'rgba(239,68,68,0.2)'   },
-    { name: "GitHub",         icon: <SiGithub     className="text-gray-200" />,                    color: 'rgba(156,163,175,0.15)'},
-    { name: "Docker",         icon: <SiDocker     className="text-blue-600" />,                    color: 'rgba(37,99,235,0.2)'   },
-    { name: "NGINX",          icon: <SiNginx      className="text-green-600" />,                   color: 'rgba(22,163,74,0.2)'   },
-    { name: "Celery",         icon: <SiCelery     className="text-green-400" />,                   color: 'rgba(74,222,128,0.2)'  },
-    { name: "Redis",          icon: <SiRedis      className="text-red-600" />,                     color: 'rgba(220,38,38,0.2)'   },
-    { name: "PostgreSQL",     icon: <SiPostgresql className="text-blue-700" />,                    color: 'rgba(29,78,216,0.2)'   },
-    { name: "MySQL",          icon: <SiMysql      className="text-blue-500" />,                    color: 'rgba(59,130,246,0.2)'  },
-    { name: "SQL",            icon: <Database     className="text-purple-400" />,                  color: 'rgba(192,132,252,0.2)' },
-    { name: "AWS",            icon: <Cloud        className="text-orange-400" />,                  color: 'rgba(251,146,60,0.2)'  },
-    { name: "Selenium",       icon: <SiSelenium   className="text-green-600" />,                   color: 'rgba(22,163,74,0.2)'   },
-    { name: "Scrapy",         icon: <SiScrapy     className="text-gray-200" />,                    color: 'rgba(156,163,175,0.15)'},
-    { name: "Problem Solving",icon: <Puzzle       className="text-indigo-500" />,                  color: 'rgba(99,102,241,0.2)'  },
-    { name: "Critical Thinking",icon: <Brain      className="text-pink-500" />,                    color: 'rgba(236,72,153,0.2)'  },
-    { name: "Communication",  icon: <MessageSquare className="text-cyan-400" />,                   color: 'rgba(34,211,238,0.2)'  },
-    { name: "Adaptability",   icon: <RefreshCcw   className="text-lime-500" />,                    color: 'rgba(132,204,22,0.2)'  },
-    { name: "Growth Mindset", icon: <TrendingUp   className="text-orange-400" />,                  color: 'rgba(251,146,60,0.2)'  },
-    { name: "Rapid Learning", icon: <Bolt         className="text-teal-400" />,                    color: 'rgba(45,212,191,0.2)'  },
-  ];
+  const skills = content.items
+    .map((name) => SKILL_LIBRARY.find((item) => item.name === name) ?? {
+      name,
+      icon: <Puzzle className="text-neon-blue" />,
+      color: 'rgba(30,103,198,0.2)',
+    });
 
   const repeatedSkills = [...skills, ...skills];
 
@@ -53,7 +65,7 @@ const Skills: React.FC = () => {
   }, []);
 
   return (
-    <section id="skills" className="py-24 relative overflow-hidden" ref={sectionRef}>
+    <section id="skills" className="py-16 md:py-20 relative overflow-hidden" ref={sectionRef}>
       {/* Dark glass background */}
       <div className="absolute inset-0" style={{
         background: 'linear-gradient(180deg, rgba(11,15,26,0) 0%, rgba(12,17,24,0.6) 50%, rgba(11,15,26,0) 100%)',
@@ -71,10 +83,10 @@ const Skills: React.FC = () => {
             <span className="section-tag">Tech Stack</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-white">
-            My <span className="text-gradient">Skills & Tools</span>
+            <span className="text-gradient">{content.title}</span>
           </h2>
           <p className="text-gray-400 mt-3 text-sm max-w-md mx-auto">
-            Technologies I use to architect, automate, and deploy production-grade systems.
+            {content.subtitle}
           </p>
         </motion.div>
 

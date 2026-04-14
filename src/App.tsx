@@ -1,25 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
+import Services from './components/Services';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import NeuralBackground from './components/NeuralBackground';
 import LoadingScreen from './components/LoadingScreen';
-import CustomCursor from './components/CustomCursor';
+import AdminPanel from './components/AdminPanel';
+import { loadSiteContent } from './content/siteContent';
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    const saved = localStorage.getItem('theme-mode');
+    return saved === 'light' ? 'light' : 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('theme-light', theme === 'light');
+    localStorage.setItem('theme-mode', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
+  const isAdminRoute = window.location.pathname.startsWith('/admin');
+  const content = loadSiteContent();
 
   return (
     <>
-      <CustomCursor />
-      {loading && <LoadingScreen onComplete={() => setLoading(false)} />}
+      {isAdminRoute && <AdminPanel />}
 
-      {!loading && (
-        <div className="relative min-h-screen overflow-hidden">
+      {!isAdminRoute && loading && <LoadingScreen onComplete={() => setLoading(false)} />}
+
+      {!loading && !isAdminRoute && (
+        <div className="relative min-h-screen overflow-hidden portfolio-app-shell">
           <NeuralBackground />
 
           {/* Ambient gradient blobs */}
@@ -51,15 +70,28 @@ const App: React.FC = () => {
             }}
           />
 
-          <Navbar />
-          <main>
-            <Hero />
-            <About />
-            <Skills />
-            <Projects />
-            <Contact />
+          <Navbar theme={theme} onToggleTheme={toggleTheme} />
+          <main className="portfolio-main-content">
+            <div className="portfolio-section-frame hero">
+              <Hero content={content.hero} socials={content.socials} />
+            </div>
+            <div className="portfolio-section-frame">
+              <About content={content.about} />
+            </div>
+            <div className="portfolio-section-frame">
+              <Skills content={content.skills} />
+            </div>
+            <div className="portfolio-section-frame">
+              <Projects content={content.projects} />
+            </div>
+            <div className="portfolio-section-frame">
+              <Services content={content.services} />
+            </div>
+            <div className="portfolio-section-frame">
+              <Contact content={content.contact} socials={content.socials} />
+            </div>
           </main>
-          <Footer />
+          <Footer content={content.footer} socials={content.socials} />
         </div>
       )}
     </>
