@@ -1,0 +1,41 @@
+/* ===== CSS VARIABLES — defined here so they load first ===== */
+:root {
+  --bg-primary:    #030a03;
+  --bg-secondary:  #050f05;
+  --bg-card:       rgba(0,255,65,0.03);
+  --text-primary:  #00ff41;
+  --text-secondary:#00b37a;
+  --text-dim:      #1a4d1a;
+  --accent:        #00ff41;
+  --accent2:       #00b3ff;
+  --accent-soft:   rgba(0,255,65,0.08);
+  --border:        rgba(0,255,65,0.2);
+  --border-bright: rgba(0,255,65,0.6);
+  --glow:          0 0 10px rgba(0,255,65,0.4);
+  --glow-strong:   0 0 20px rgba(0,255,65,0.6), 0 0 40px rgba(0,255,65,0.2);
+  --cyan:          #00b3ff;
+  --cyan-soft:     rgba(0,179,255,0.1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  background-color: #030a03;
+  color: #00ff41;
+  overflow-x: hidden;
+}
+
+#root {
+  background-color: #030a03;
+  min-height: 100vh;
+}
+
+a { text-decoration: none; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #00ff41; border-radius: 3px; }
+::selection { background: rgba(0,255,65,0.3); color: #00ff41; }

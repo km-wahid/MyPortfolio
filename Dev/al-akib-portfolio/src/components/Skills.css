@@ -1,0 +1,101 @@
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-card {
+  padding: 1.5rem;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.skill-card:hover {
+  transform: translateY(-4px);
+}
+
+.skill-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.1rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+}
+
+.skill-id {
+  color: var(--accent2);
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.skill-card-header h3 {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+/* ===== SKILL TAG + TOOLTIP ===== */
+.skill-tag {
+  position: relative;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 0.25rem 0.65rem;
+  border-radius: 2px;
+  font-size: 0.78rem;
+  border: 1px solid var(--border);
+  cursor: default;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+
+.skill-tag:hover {
+  border-color: var(--accent);
+  background: rgba(0,255,65,0.15);
+  text-shadow: var(--glow);
+  z-index: 10;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  background: #000;
+  border: 1px solid var(--border-bright);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  max-width: 220px;
+  white-space: normal;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 100;
+  box-shadow: var(--glow);
+  line-height: 1.4;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--border-bright);
+}
+
+.skill-tag:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}

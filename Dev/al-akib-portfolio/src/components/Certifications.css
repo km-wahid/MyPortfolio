@@ -1,0 +1,76 @@
+.certs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.cert-card {
+  padding: 1.25rem 1.5rem;
+  transition: transform 0.3s;
+}
+
+.cert-card:hover {
+  transform: translateY(-4px);
+}
+
+.cert-row-top {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.cert-idx {
+  font-size: 0.7rem;
+  color: var(--accent2);
+  letter-spacing: 2px;
+}
+
+.cert-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+
+.cert-badge {
+  margin-left: auto;
+  font-size: 0.68rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.cert-badge.verified {
+  color: #27c93f;
+  border: 1px solid #27c93f;
+  background: rgba(39,201,63,0.08);
+}
+
+.cert-badge.completed {
+  color: var(--accent2);
+  border: 1px solid var(--accent2);
+  background: var(--cyan-soft);
+}
+
+.cert-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 0 8px currentColor;
+  letter-spacing: 0.5px;
+}
+
+.cert-issuer {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  margin-bottom: 0.2rem;
+}
+
+.cert-year {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}

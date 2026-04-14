@@ -1,0 +1,38 @@
+.timeline-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.timeline-item {
+  padding: 1rem 1.2rem;
+}
+
+.timeline-year {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--accent2);
+  border: 1px solid var(--accent2);
+  border-radius: 2px;
+  padding: 0.1rem 0.45rem;
+  margin-bottom: 0.6rem;
+  letter-spacing: 1px;
+}
+
+.timeline-item h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+  color: var(--text-primary);
+}
+
+.timeline-org {
+  color: var(--accent);
+  font-size: 0.8rem;
+  margin-bottom: 0.35rem;
+}
+
+.timeline-summary {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
