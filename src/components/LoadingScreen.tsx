@@ -9,8 +9,8 @@ const LoadingScreen: React.FC<Props> = ({ onComplete }) => {
   const [closing, setClosing] = useState(false);
 
   useEffect(() => {
-    const closeTimer = setTimeout(() => setClosing(true), 900);
-    const doneTimer = setTimeout(onComplete, 1650);
+    const closeTimer = setTimeout(() => setClosing(true), 280);
+    const doneTimer = setTimeout(onComplete, 620);
     return () => {
       clearTimeout(closeTimer);
       clearTimeout(doneTimer);

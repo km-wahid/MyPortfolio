@@ -1,17 +1,17 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
-import Projects from './components/Projects';
-import Certificates from './components/Certificates';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-import NeuralBackground from './components/NeuralBackground';
-import LoadingScreen from './components/LoadingScreen';
 import { loadSiteContent } from './content/siteContent';
 
 const AdminPanel = lazy(() => import('./components/AdminPanel'));
+const About = lazy(() => import('./components/About'));
+const Skills = lazy(() => import('./components/Skills'));
+const Projects = lazy(() => import('./components/Projects'));
+const Certificates = lazy(() => import('./components/Certificates'));
+const Contact = lazy(() => import('./components/Contact'));
+const Footer = lazy(() => import('./components/Footer'));
+const NeuralBackground = lazy(() => import('./components/NeuralBackground'));
+const LoadingScreen = lazy(() => import('./components/LoadingScreen'));
 
 const App: React.FC = () => {
   const isAdminRoute = window.location.pathname.startsWith('/admin');
@@ -23,11 +23,19 @@ const App: React.FC = () => {
     const saved = localStorage.getItem('theme-mode');
     return saved === 'light' ? 'light' : 'dark';
   });
+  const [showDeferredSections, setShowDeferredSections] = useState(false);
+  const [content] = useState(() => loadSiteContent());
 
   useEffect(() => {
     document.documentElement.classList.toggle('theme-light', theme === 'light');
     localStorage.setItem('theme-mode', theme);
   }, [theme]);
+
+  useEffect(() => {
+    if (isAdminRoute || loading) return;
+    const timer = window.setTimeout(() => setShowDeferredSections(true), 120);
+    return () => window.clearTimeout(timer);
+  }, [isAdminRoute, loading]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
@@ -38,8 +46,6 @@ const App: React.FC = () => {
     setLoading(false);
   };
 
-  const content = loadSiteContent();
-
   return (
     <>
       {isAdminRoute && (
@@ -48,11 +54,17 @@ const App: React.FC = () => {
         </Suspense>
       )}
 
-      {!isAdminRoute && loading && <LoadingScreen onComplete={handleLoadingComplete} />}
+      {!isAdminRoute && loading && (
+        <Suspense fallback={null}>
+          <LoadingScreen onComplete={handleLoadingComplete} />
+        </Suspense>
+      )}
 
       {!loading && !isAdminRoute && (
         <div className="relative min-h-screen overflow-hidden portfolio-app-shell">
-          <NeuralBackground />
+          <Suspense fallback={null}>
+            <NeuralBackground />
+          </Suspense>
 
           {/* Ambient gradient blobs */}
           <div
@@ -88,23 +100,31 @@ const App: React.FC = () => {
             <div className="portfolio-section-frame hero">
               <Hero content={content.hero} socials={content.socials} theme={theme} />
             </div>
-            <div className="portfolio-section-frame">
-              <About content={content.about} />
-            </div>
-            <div className="portfolio-section-frame">
-              <Skills content={content.skills} />
-            </div>
-            <div className="portfolio-section-frame">
-              <Projects content={content.projects} />
-            </div>
-            <div className="portfolio-section-frame">
-              <Certificates content={content.certificates} />
-            </div>
-            <div className="portfolio-section-frame">
-              <Contact content={content.contact} socials={content.socials} />
-            </div>
+            {showDeferredSections && (
+              <Suspense fallback={null}>
+                <div className="portfolio-section-frame">
+                  <About content={content.about} />
+                </div>
+                <div className="portfolio-section-frame">
+                  <Skills content={content.skills} />
+                </div>
+                <div className="portfolio-section-frame">
+                  <Projects content={content.projects} />
+                </div>
+                <div className="portfolio-section-frame">
+                  <Certificates content={content.certificates} />
+                </div>
+                <div className="portfolio-section-frame">
+                  <Contact content={content.contact} socials={content.socials} />
+                </div>
+              </Suspense>
+            )}
           </main>
-          <Footer content={content.footer} socials={content.socials} />
+          {showDeferredSections && (
+            <Suspense fallback={null}>
+              <Footer content={content.footer} socials={content.socials} />
+            </Suspense>
+          )}
         </div>
       )}
     </>
