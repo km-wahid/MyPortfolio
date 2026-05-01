@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { MouseEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Download, Home, User, Wrench, Briefcase, ShoppingBag, Mail } from 'lucide-react';
+import { Menu, X, Download, Home, User, Wrench, Briefcase, Award, Mail } from 'lucide-react';
 import ThemeSwitch from './ThemeSwitch';
 import logo from '../assets/coding.png';
 
@@ -10,7 +10,7 @@ const navLinks = [
   { name: 'About', href: '#about', icon: <User className="h-4 w-4" />, sectionId: 'about' },
   { name: 'Skills', href: '#skills', icon: <Wrench className="h-4 w-4" />, sectionId: 'skills' },
   { name: 'Projects', href: '#projects', icon: <Briefcase className="h-4 w-4" />, sectionId: 'projects' },
-  { name: 'Services', href: '#services', icon: <ShoppingBag className="h-4 w-4" />, sectionId: 'services' },
+  { name: 'Certificates', href: '#certificates', icon: <Award className="h-4 w-4" />, sectionId: 'certificates' },
   { name: 'Contact', href: '#contact', icon: <Mail className="h-4 w-4" />, sectionId: 'contact' },
 ];
 

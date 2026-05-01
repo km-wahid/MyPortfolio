@@ -193,9 +193,9 @@ const Projects: React.FC<ProjectsProps> = ({ content }) => {
               transition={{ duration: 0.6, delay: 0.35 }}
             >
               {[
-                { value: `${content.items.length}+`, label: 'Projects', color: '#00F5FF' },
+                { value: '20+', label: 'Projects', color: '#00F5FF' },
                 { value: '15+', label: 'Technologies',  color: '#B24BF3' },
-                { value: '2',   label: 'In Production', color: '#00ff9f' },
+                { value: '4',   label: 'In Production', color: '#00ff9f' },
               ].map((s, i) => (
                 <motion.div
                   key={i}

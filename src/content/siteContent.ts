@@ -1,3 +1,7 @@
+import aicertsImage from '../assets/aicerts.png';
+import hackathonImage from '../assets/hackathon.jpg';
+import ibmmlImage from '../assets/ibmml.png';
+
 export interface SocialLink {
   label: string;
   href: string;
@@ -51,6 +55,21 @@ export interface ContactContent {
   availability: string;
 }
 
+export interface CertificateItem {
+  id: number;
+  title: string;
+  organization: string;
+  kind: 'Certificate' | 'Achievement';
+  image: string;
+  credentialId?: string;
+}
+
+export interface CertificatesContent {
+  title: string;
+  subtitle: string;
+  items: CertificateItem[];
+}
+
 export interface FooterContent {
   tagline: string;
 }
@@ -78,6 +97,7 @@ export interface SiteContent {
   about: AboutContent;
   skills: SkillsContent;
   projects: ProjectsContent;
+  certificates: CertificatesContent;
   contact: ContactContent;
   services: ServicesContent;
   footer: FooterContent;
@@ -168,6 +188,35 @@ export const defaultSiteContent: SiteContent = {
         demo: 'https://yt-downloder-rmgg.onrender.com/',
         description: 'A containerized YouTube downloader built with Python and yt-dlp, wrapped in a FastAPI backend and React frontend. The application features real-time progress tracking, format selection, batch downloading, and automatic media conversion options. The Docker implementation ensures consistent behavior across different environments.',
         accentColor: '#ff7b00',
+      },
+    ],
+  },
+  certificates: {
+    title: 'Certificates & Achievement',
+    subtitle: 'Proof of continuous learning and competitive problem solving.',
+    items: [
+      {
+        id: 1,
+        title: 'Machine Learning with Python',
+        organization: 'IBM',
+        kind: 'Certificate',
+        image: ibmmlImage,
+        credentialId: 'FFZOBHZL6MAN',
+      },
+      {
+        id: 2,
+        title: 'AI Prompt Engineer Level 1™',
+        organization: 'AI CERTs™',
+        kind: 'Certificate',
+        image: aicertsImage,
+        credentialId: 'ef11be4ead9c',
+      },
+      {
+        id: 3,
+        title: 'CPC Hackathon Winner',
+        organization: 'DIU',
+        kind: 'Achievement',
+        image: hackathonImage,
       },
     ],
   },
