@@ -108,10 +108,10 @@ export const CONTENT_STORAGE_KEY = 'portfolio-admin-content-v1';
 
 export const defaultSiteContent: SiteContent = {
   hero: {
-    badge: 'Software Developer',
-    titleLine1: 'From logic to launch —',
-    titleLine2: 'I build systems that work.',
-    roles: ['Python/Django Developer', 'AI Enthusiast', 'Fast Learner', 'Team Player'],
+    badge: 'Django Backend & AI Systems',
+    titleLine1: 'Engineering Intelligent Backends —',
+    titleLine2: 'Structuring data, automating intelligence.',
+    roles: ['Django Backend Developer', 'AI Integration Engineer', 'LLM Agent Developer', 'System Architect'],
     ctaText: "Let's Connect",
     resumeText: 'Download Resume',
   },
@@ -119,18 +119,20 @@ export const defaultSiteContent: SiteContent = {
     title: 'The Engineer',
     subtitle: 'Behind the Code',
     paragraphs: [
-      'I’m a Python/Django Developer focused on building practical, scalable web applications, with a strong and growing interest in AI-driven solutions.',
-      'I solve problems by understanding how systems work, not just by writing code. I learn quickly, adapt to new technologies, and apply them to real-world projects with confidence.',
-      'I have experience in full-stack Django development, automation, and building user-focused systems. I value teamwork, clear communication, and continuous improvement, and I’m currently growing toward becoming an AI Engineer with stronger backend and system design expertise.',
+      'I’m a Django Backend Engineer specializing in building scalable web architectures, microservices, and integrating advanced Artificial Intelligence APIs and LLM agent chains.',
+      'From optimizing PostgreSQL query trees and managing distributed task queues with Celery & Redis to fine-tuning prompt contexts and structuring vector database indices, I bridge the gap between relational backend logic and cognitive AI workloads.',
+      'I build secure, high-performance APIs, robust system designs, and real-world AI-augmented tools that turn complexity into smooth, automated user workflows.',
     ],
   },
   skills: {
     title: 'My Skills & Tools',
-    subtitle: 'Technologies I use to architect, automate, and deploy production-grade systems.',
+    subtitle: 'Technologies I use to architect, automate, and deploy production-grade intelligent backends.',
     items: [
-      'HTML', 'CSS', 'JavaScript', 'Python', 'C++', 'Django', 'Git', 'GitHub', 'Docker', 'NGINX',
-      'Celery', 'Redis', 'PostgreSQL', 'MySQL', 'SQL', 'AWS', 'Selenium', 'Scrapy', 'Problem Solving',
-      'Critical Thinking', 'Communication', 'Adaptability', 'Growth Mindset', 'Rapid Learning',
+      'AI Engineering', 'Python', 'Django', 'Celery', 'Redis', 'PostgreSQL', 'Docker', 'NGINX', 'AWS',
+      'LangChain', 'ML & RAG', 'Vector DB', 'ML Pipelines', 'LLM Agents',
+      'NumPy', 'Pandas', 'API Integration', 'LLMOps',
+      'JavaScript', 'HTML', 'CSS', 'Git', 'GitHub', 'SQL', 'MySQL', 'Selenium',
+      'Problem Solving', 'Critical Thinking', 'Rapid Learning', 'Growth Mindset', 'Ai Engineer',
     ],
   },
   projects: {
@@ -272,6 +274,26 @@ export const loadSiteContent = (): SiteContent => {
     const raw = localStorage.getItem(CONTENT_STORAGE_KEY);
     if (!raw) return defaultSiteContent;
     const parsed = JSON.parse(raw) as SiteContent;
+
+    // Filter out deprecated skills and merge new default skills
+    if (parsed.skills && parsed.skills.items) {
+      // Remove deprecated skills from user's local storage if present
+      const skillsToRemove = new Set([
+        'pytorch', 'openai api', 'prompt engineering', 'deep learning', 
+        'machine learning', 'vector search', 'tensorflow', 'rag', 'vector databases'
+      ]);
+      parsed.skills.items = parsed.skills.items.filter(
+        item => !skillsToRemove.has(item.toLowerCase())
+      );
+      
+      const existingSet = new Set(parsed.skills.items);
+      const newSkills = defaultSiteContent.skills.items.filter(item => !existingSet.has(item));
+      if (newSkills.length > 0) {
+        parsed.skills.items = [...parsed.skills.items, ...newSkills];
+      }
+      localStorage.setItem(CONTENT_STORAGE_KEY, JSON.stringify(parsed));
+    }
+
     return { ...defaultSiteContent, ...parsed };
   } catch {
     return defaultSiteContent;

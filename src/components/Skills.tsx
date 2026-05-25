@@ -1,192 +1,221 @@
-import { motion } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
-
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import {
-  SiHtml5, SiCss3, SiJavascript, SiPython, SiDocker, SiGit,
-  SiGithub, SiDjango, SiCplusplus, SiNginx, SiCelery, SiRedis,
-  SiPostgresql, SiMysql, SiSelenium, SiScrapy,
-} from "react-icons/si";
+  Brain, Cpu, Network, Database, Cloud, Zap, Shield, Code,
+  Github, Server, Terminal,
+  DatabaseZap, Layers, Bot, FileCode, Layout, Palette, Search
+} from 'lucide-react';
+import { SkillsContent } from '../content/siteContent';
 
-import {
-  Brain, MessageSquare, RefreshCcw, TrendingUp, Bolt, Puzzle, Database, Cloud,
-} from "lucide-react";
-import { SkillsContent } from "../content/siteContent";
+const SKILL_ICONS: Record<string, React.ReactNode> = {
+  // AI & ML Skills
+  'AI Engineering': <Brain className="h-5 w-5 text-blue-400" />,
+  'LangChain': <Layers className="h-5 w-5 text-purple-400" />,
+  'OpenAI API': <Bot className="h-5 w-5 text-green-400" />,
+  'RAG': <DatabaseZap className="h-5 w-5 text-indigo-400" />,
+  'ML & RAG': <Brain className="h-5 w-5 text-pink-400" />,
+  'Vector Databases': <Database className="h-5 w-5 text-cyan-400" />,
+  'Vector DB': <Database className="h-5 w-5 text-cyan-400" />,
+  'LLM Agents': <Bot className="h-5 w-5 text-emerald-400" />,
+  'Prompt Engineering': <FileCode className="h-5 w-5 text-amber-400" />,
+  'Machine Learning': <Brain className="h-5 w-5 text-orange-400" />,
+  'NumPy': <Layout className="h-5 w-5 text-blue-400" />,
+  'Pandas': <Layers className="h-5 w-5 text-blue-400" />,
+  'Deep Learning': <Brain className="h-5 w-5 text-purple-400" />,
+  'PyTorch': <Cpu className="h-5 w-5 text-red-400" />,
+  'TensorFlow': <Cpu className="h-5 w-5 text-orange-400" />,
+  'LLMOps': <Network className="h-5 w-5 text-indigo-400" />,
+  'ML Pipelines': <Network className="h-5 w-5 text-purple-400" />,
+  'API Integration': <Zap className="h-5 w-5 text-yellow-400" />,
+  'Vector Search': <Search className="h-5 w-5 text-cyan-400" />,
 
-const SKILL_LIBRARY = [
-  { name: "HTML", icon: <SiHtml5 className="text-orange-500" />, color: 'rgba(249,115,22,0.2)' },
-  { name: "CSS", icon: <SiCss3 className="text-blue-500" />, color: 'rgba(59,130,246,0.2)' },
-  { name: "JavaScript", icon: <SiJavascript className="text-yellow-400" />, color: 'rgba(250,204,21,0.2)' },
-  { name: "Python", icon: <SiPython className="text-blue-400" />, color: 'rgba(96,165,250,0.2)' },
-  { name: "C++", icon: <SiCplusplus className="text-blue-500" />, color: 'rgba(59,130,246,0.2)' },
-  { name: "Django", icon: <SiDjango className="text-green-700" />, color: 'rgba(21,128,61,0.2)' },
-  { name: "Git", icon: <SiGit className="text-red-500" />, color: 'rgba(239,68,68,0.2)' },
-  { name: "GitHub", icon: <SiGithub className="text-gray-200" />, color: 'rgba(156,163,175,0.15)' },
-  { name: "Docker", icon: <SiDocker className="text-blue-600" />, color: 'rgba(37,99,235,0.2)' },
-  { name: "NGINX", icon: <SiNginx className="text-green-600" />, color: 'rgba(22,163,74,0.2)' },
-  { name: "Celery", icon: <SiCelery className="text-green-400" />, color: 'rgba(74,222,128,0.2)' },
-  { name: "Redis", icon: <SiRedis className="text-red-600" />, color: 'rgba(220,38,38,0.2)' },
-  { name: "PostgreSQL", icon: <SiPostgresql className="text-blue-700" />, color: 'rgba(29,78,216,0.2)' },
-  { name: "MySQL", icon: <SiMysql className="text-blue-500" />, color: 'rgba(59,130,246,0.2)' },
-  { name: "SQL", icon: <Database className="text-purple-400" />, color: 'rgba(192,132,252,0.2)' },
-  { name: "AWS", icon: <Cloud className="text-orange-400" />, color: 'rgba(251,146,60,0.2)' },
-  { name: "Selenium", icon: <SiSelenium className="text-green-600" />, color: 'rgba(22,163,74,0.2)' },
-  { name: "Scrapy", icon: <SiScrapy className="text-gray-200" />, color: 'rgba(156,163,175,0.15)' },
-  { name: "Problem Solving", icon: <Puzzle className="text-indigo-500" />, color: 'rgba(99,102,241,0.2)' },
-  { name: "Critical Thinking", icon: <Brain className="text-pink-500" />, color: 'rgba(236,72,153,0.2)' },
-  { name: "Communication", icon: <MessageSquare className="text-cyan-400" />, color: 'rgba(34,211,238,0.2)' },
-  { name: "Adaptability", icon: <RefreshCcw className="text-lime-500" />, color: 'rgba(132,204,22,0.2)' },
-  { name: "Growth Mindset", icon: <TrendingUp className="text-orange-400" />, color: 'rgba(251,146,60,0.2)' },
-  { name: "Rapid Learning", icon: <Bolt className="text-teal-400" />, color: 'rgba(45,212,191,0.2)' },
-];
+  // Backend & Database Skills
+  'Python': <Terminal className="h-5 w-5 text-blue-400" />,
+  'Django': <Server className="h-5 w-5 text-green-400" />,
+  'Celery': <Network className="h-5 w-5 text-teal-400" />,
+  'Redis': <DatabaseZap className="h-5 w-5 text-amber-400" />,
+  'PostgreSQL': <Database className="h-5 w-5 text-blue-400" />,
+  'SQL': <Database className="h-5 w-5 text-blue-400" />,
+  'MySQL': <Database className="h-5 w-5 text-blue-500" />,
+
+  // DevOps & Tools Skills
+  'Docker': <Layers className="h-5 w-5 text-blue-500" />,
+  'NGINX': <Server className="h-5 w-5 text-slate-400" />,
+  'AWS': <Cloud className="h-5 w-5 text-amber-400" />,
+  'Git': <Terminal className="h-5 w-5 text-orange-400" />,
+  'GitHub': <Github className="h-5 w-5 text-slate-400" />,
+  'Selenium': <Bot className="h-5 w-5 text-purple-400" />,
+
+  // Core Skills
+  'JavaScript': <FileCode className="h-5 w-5 text-yellow-400" />,
+  'HTML': <FileCode className="h-5 w-5 text-orange-400" />,
+  'CSS': <Palette className="h-5 w-5 text-blue-400" />,
+
+  // Mindset Skills
+  'Problem Solving': <Shield className="h-5 w-5 text-indigo-400" />,
+  'Critical Thinking': <Brain className="h-5 w-5 text-indigo-400" />,
+  'Rapid Learning': <Zap className="h-5 w-5 text-yellow-400" />,
+  'Growth Mindset': <Cpu className="h-5 w-5 text-emerald-400" />,
+  'Communication': <Network className="h-5 w-5 text-teal-400" />,
+  'Adaptability': <Layers className="h-5 w-5 text-purple-400" />,
+  'Ai Engineer': <Brain className="h-5 w-5 text-blue-400" />,
+};
+
+const CATEGORY_COLORS = {
+  'AI Engineering': 'border-blue-500/20 bg-blue-500/5',
+  'Backend & Database': 'border-teal-500/20 bg-teal-500/5',
+  'DevOps & Automation': 'border-amber-500/20 bg-amber-500/5',
+  'Core Mindset & Instincts': 'border-indigo-500/20 bg-indigo-500/5',
+};
+
+const CATEGORY_ICONS: Record<string, React.ReactNode> = {
+  'AI Engineering': <Brain className="h-5 w-5 text-blue-400" />,
+  'Backend & Database': <Database className="h-5 w-5 text-teal-400" />,
+  'DevOps & Automation': <Cloud className="h-5 w-5 text-amber-400" />,
+  'Core Mindset & Instincts': <Shield className="h-5 w-5 text-indigo-400" />,
+};
 
 interface SkillsProps {
   content: SkillsContent;
 }
 
 const Skills: React.FC<SkillsProps> = ({ content }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [scrollWidth, setScrollWidth] = useState(0);
-  const [sectionRef, inView] = useInView({ triggerOnce: true, threshold: 0.08 });
+  const [sectionRef, inView] = useInView({ triggerOnce: true, threshold: 0.05 });
 
-  const skills = content.items
-    .map((name) => SKILL_LIBRARY.find((item) => item.name === name) ?? {
+  const skills = content.items.map((name) => {
+    const category = getCategoryName(name);
+    return {
       name,
-      icon: <Puzzle className="text-neon-blue" />,
-      color: 'rgba(30,103,198,0.2)',
-    });
+      category,
+      icon: SKILL_ICONS[name] || SKILL_ICONS[category] || <Code className="h-5 w-5 text-slate-400" />,
+      color: CATEGORY_COLORS[category] || 'border-slate-600/20 bg-slate-600/5',
+    };
+  });
 
-  const repeatedSkills = [...skills, ...skills];
-
-  useEffect(() => {
-    if (containerRef.current) {
-      setScrollWidth(containerRef.current.scrollWidth / 2);
+  const groupedSkills = skills.reduce((groups, skill) => {
+    if (!groups[skill.category]) {
+      groups[skill.category] = [];
     }
-  }, []);
+    groups[skill.category].push(skill);
+    return groups;
+  }, {} as Record<string, typeof skills>);
+
+  const orderedCategories = [
+    'AI Engineering',
+    'Backend & Database',
+    'DevOps & Automation',
+    'Core Mindset & Instincts',
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08 }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4 }
+    }
+  };
 
   return (
-    <section id="skills" className="py-12 sm:py-14 md:py-20 relative overflow-hidden" ref={sectionRef}>
-      {/* Dark glass background */}
-      <div className="absolute inset-0" style={{
-        background: 'linear-gradient(180deg, rgba(11,15,26,0) 0%, rgba(12,17,24,0.6) 50%, rgba(11,15,26,0) 100%)',
-      }} />
+    <section id="skills" className="py-16 sm:py-20 md:py-28 relative overflow-hidden" ref={sectionRef}>
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-blue-500/5 to-teal-500/5 rounded-full blur-3xl" />
+      </div>
 
-      <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
-        {/* Section header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
-          animate={inView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
-          transition={{ duration: 0.75 }}
-          className="mb-10 sm:mb-14"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-12 sm:mb-16"
         >
           <div className="flex justify-center mb-4">
-            <span className="section-tag">Tech Stack</span>
+            <span className="section-tag">Capabilities</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             <span className="text-gradient">{content.title}</span>
           </h2>
-            <p className="text-gray-400 mt-3 text-sm max-w-md mx-auto px-2">
+          <p className="text-slate-400 mt-4 text-lg max-w-2xl mx-auto">
             {content.subtitle}
           </p>
         </motion.div>
 
-        {/* Row 1 — slides in from left, then scrolls right */}
         <motion.div
-          className="relative w-full overflow-hidden"
-          ref={containerRef}
-          initial={{ opacity: 0, x: -60 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          {/* Edge fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-20 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(90deg, #0B0F1A, transparent)' }} />
-          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-20 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(270deg, #0B0F1A, transparent)' }} />
+          {orderedCategories.map((category) => {
+            const categorySkills = groupedSkills[category] || [];
+            if (categorySkills.length === 0) return null;
 
-          {scrollWidth > 0 && (
-            <motion.div
-              className="flex gap-4 sm:gap-6 whitespace-nowrap py-2"
-              animate={{ x: [0, -scrollWidth] }}
-              transition={{ repeat: Infinity, duration: 28, ease: "linear" }}
-            >
-              {repeatedSkills.map((skill, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ scale: 1.12, y: -6 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 12 }}
-                  className="flex flex-col items-center text-center min-w-[88px] sm:min-w-[100px] group"
-                >
-                  <div
-                    className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center mb-2 transition-all duration-300"
-                    style={{
-                      background: skill.color,
-                      border: '1px solid rgba(255,255,255,0.06)',
-                    }}
-                  >
-                    <div className="text-2xl sm:text-3xl transition-transform duration-300 group-hover:scale-110">
-                      {skill.icon}
-                    </div>
+            return (
+              <motion.div
+                key={category}
+                variants={cardVariants}
+                className="glass-panel rounded-2xl p-6 border border-slate-700/30"
+              >
+                <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-700/30">
+                  <div className={`p-2 rounded-lg ${CATEGORY_COLORS[category] || 'border-slate-600/20 bg-slate-600/5'}`}>
+                    {CATEGORY_ICONS[category] || <Code className="h-5 w-5 text-slate-400" />}
                   </div>
-                  <span className="text-xs font-semibold text-gray-400 group-hover:text-white transition-colors duration-200">
-                    {skill.name}
-                  </span>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-        </motion.div>
+                  <h3 className="text-lg font-semibold text-white">{category}</h3>
+                </div>
 
-        {/* Row 2 — slides in from right, then scrolls left */}
-        <motion.div
-          className="relative w-full overflow-hidden mt-6"
-          initial={{ opacity: 0, x: 60 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.35 }}
-        >
-          <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-20 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(90deg, #0B0F1A, transparent)' }} />
-          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-20 z-10 pointer-events-none"
-            style={{ background: 'linear-gradient(270deg, #0B0F1A, transparent)' }} />
-
-          {scrollWidth > 0 && (
-            <motion.div
-              className="flex gap-4 sm:gap-6 whitespace-nowrap py-2"
-              animate={{ x: [-scrollWidth, 0] }}
-              transition={{ repeat: Infinity, duration: 32, ease: "linear" }}
-            >
-              {[...repeatedSkills].reverse().map((skill, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ scale: 1.12, y: -6 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 12 }}
-                  className="flex flex-col items-center text-center min-w-[88px] sm:min-w-[100px] group"
-                >
-                  <div
-                    className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center mb-2 transition-all duration-300"
-                    style={{
-                      background: skill.color,
-                      border: '1px solid rgba(255,255,255,0.06)',
-                    }}
-                  >
-                    <div className="text-2xl sm:text-3xl group-hover:scale-110 transition-transform duration-300">
+                <div className="flex flex-wrap gap-2.5">
+                  {categorySkills.map((skill, idx) => (
+                    <motion.div
+                      key={idx}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                      className="flex items-center gap-2 px-3.5 py-2 rounded-lg border border-slate-700/30 bg-slate-800/40 text-slate-300 hover:text-white hover:border-blue-500/30 transition-all duration-200"
+                    >
                       {skill.icon}
-                    </div>
-                  </div>
-                  <span className="text-xs font-semibold text-gray-400 group-hover:text-white transition-colors duration-200">
-                    {skill.name}
-                  </span>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
+                      <span className="text-sm font-medium tracking-wide">{skill.name}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
         </motion.div>
-
-        {/* Glow divider */}
-        <div className="mt-10 sm:mt-14 glow-divider w-2/3" />
       </div>
     </section>
   );
+};
+
+const getCategoryName = (name: string): string => {
+  const aiCategories = [
+    'AI Engineering', 'LangChain', 'OpenAI API', 'RAG', 'ML & RAG', 'Vector Databases',
+    'Vector DB', 'LLM Agents', 'Prompt Engineering', 'Machine Learning', 'NumPy',
+    'Pandas', 'Deep Learning', 'PyTorch', 'TensorFlow', 'LLMOps', 'ML Pipelines',
+    'API Integration', 'Vector Search'
+  ];
+
+  const backendCategories = ['Python', 'Django', 'Celery', 'Redis', 'PostgreSQL', 'SQL', 'MySQL'];
+
+  const devOpsCategories = ['Docker', 'NGINX', 'AWS', 'Git', 'GitHub', 'Selenium'];
+
+  const mindsetCategories = [
+    'Problem Solving', 'Critical Thinking', 'Rapid Learning', 'Growth Mindset',
+    'Communication', 'Adaptability'
+  ];
+
+  if (aiCategories.includes(name)) return 'AI Engineering';
+  if (backendCategories.includes(name)) return 'Backend & Database';
+  if (devOpsCategories.includes(name)) return 'DevOps & Automation';
+  if (mindsetCategories.includes(name)) return 'Core Mindset & Instincts';
+
+  return 'Core Mindset & Instincts';
 };
 
 export default Skills;

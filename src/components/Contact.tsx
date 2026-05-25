@@ -19,23 +19,23 @@ const Contact: React.FC<ContactProps> = ({ content, socials }) => {
   const [submitError, setSubmitError] = useState('');
 
   const itemVariants = {
-    hidden:   { y: 24, opacity: 0, filter: 'blur(4px)' },
-    visible:  { y: 0,  opacity: 1, filter: 'blur(0px)', transition: { duration: 0.65 } },
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
   };
 
   const leftVariants = {
-    hidden:  { x: -60, opacity: 0, filter: 'blur(6px)' },
-    visible: { x: 0,   opacity: 1, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } },
+    hidden: { x: -40, opacity: 0 },
+    visible: { x: 0, opacity: 1, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } },
   };
 
   const rightVariants = {
-    hidden:  { x: 60, opacity: 0, filter: 'blur(6px)' },
-    visible: { x: 0,  opacity: 1, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] } },
+    hidden: { x: 40, opacity: 0 },
+    visible: { x: 0, opacity: 1, transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] } },
   };
 
   const fieldVariants = {
-    hidden:  { y: 20, opacity: 0 },
-    visible: (i: number) => ({ y: 0, opacity: 1, transition: { duration: 0.5, delay: i * 0.08 } }),
+    hidden: { y: 16, opacity: 0 },
+    visible: (i: number) => ({ y: 0, opacity: 1, transition: { duration: 0.4, delay: i * 0.08 } }),
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -66,60 +66,56 @@ const Contact: React.FC<ContactProps> = ({ content, socials }) => {
   };
 
   return (
-    <section id="contact" className="py-14 sm:py-16 md:py-24 relative overflow-hidden">
-      {/* Background radial */}
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'radial-gradient(ellipse 60% 50% at 70% 50%, rgba(178,75,243,0.04) 0%, transparent 70%)',
-      }} />
+    <section id="contact" className="py-16 sm:py-20 md:py-28 relative overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-gradient-to-l from-teal-500/5 to-transparent rounded-full blur-3xl" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
-          variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.15 } } }}
+          variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.08 } } }}
         >
-          {/* Header */}
-          <motion.div variants={itemVariants} className="text-center mb-10 sm:mb-14 md:mb-16">
+          <motion.div variants={itemVariants} className="text-center mb-12 sm:mb-16">
             <div className="flex justify-center mb-4">
-              <span className="section-tag" style={{ color: '#ff7b00', borderColor: 'rgba(255,123,0,0.3)', background: 'rgba(255,123,0,0.05)' }}>
-                Contact
+              <span className="section-tag" style={{ borderColor: 'rgba(20, 184, 166, 0.3)', background: 'rgba(20, 184, 166, 0.08)', color: '#14b8a6' }}>
+                Get In Touch
               </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-gradient-orange">{content.title}</span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-gradient">{content.title}</span>
             </h2>
-            <p className="text-gray-400 max-w-xl mx-auto">
+            <p className="text-slate-400 max-w-xl mx-auto text-lg">
               {content.subtitle}
             </p>
           </motion.div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8">
-            {/* Left: info */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
             <motion.div variants={leftVariants} className="lg:col-span-2 space-y-6">
-              {/* Email card */}
-              <div className="glass glass-hover rounded-2xl p-6 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none" style={{
-                  background: 'radial-gradient(circle, rgba(0,245,255,0.06) 0%, transparent 70%)',
-                }} />
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-9 h-9 rounded-lg bg-neon-blue/10 border border-neon-blue/20 flex items-center justify-center">
-                    <Mail className="h-4 w-4 text-neon-blue" />
+              <div className="glass-panel rounded-2xl p-6 relative overflow-hidden border border-slate-700/30">
+                <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none">
+                  <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-blue-500/10 to-transparent rounded-bl-3xl" />
+                </div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                    <Mail className="h-5 w-5 text-blue-400" />
                   </div>
                   <h3 className="font-semibold text-white">Email Me</h3>
                 </div>
-                <p className="text-gray-500 text-sm mb-1">Reach me at:</p>
+                <p className="text-slate-400 text-sm mb-2">Reach me at:</p>
                 <a href={`mailto:${content.email}`}
-                  className="text-neon-blue text-sm hover:underline underline-offset-2">
+                  className="text-blue-400 text-sm hover:text-blue-300 transition-colors font-medium"
+                >
                   {content.email}
                 </a>
               </div>
 
-              {/* Socials card */}
-              <div className="glass glass-hover rounded-2xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-9 h-9 rounded-lg bg-neon-purple/10 border border-neon-purple/20 flex items-center justify-center">
-                    <MessageCircle className="h-4 w-4 text-neon-purple" />
+              <div className="glass-panel rounded-2xl p-6 border border-slate-700/30">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
+                    <MessageCircle className="h-5 w-5 text-indigo-400" />
                   </div>
                   <h3 className="font-semibold text-white">Connect With Me</h3>
                 </div>
@@ -130,17 +126,8 @@ const Contact: React.FC<ContactProps> = ({ content, socials }) => {
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                       className="flex-1 min-w-[92px] flex flex-col items-center gap-1.5 py-3 rounded-xl text-gray-400 hover:text-white transition-all duration-300"
-                      style={{
-                        background:
-                          s.label === 'GitHub'
-                            ? 'rgba(255,255,255,0.1)'
-                            : s.label === 'LinkedIn'
-                              ? 'rgba(0,119,181,0.2)'
-                              : 'rgba(0,245,255,0.15)',
-                        border: '1px solid rgba(255,255,255,0.06)',
-                      }}
-                      whileHover={{ y: -3, scale: 1.02 }}
+                      className="flex-1 min-w-[90px] flex flex-col items-center gap-2 py-3 rounded-xl border border-slate-700/30 bg-slate-800/40 text-slate-400 hover:text-white hover:border-slate-600 transition-all duration-300"
+                      whileHover={{ y: -3 }}
                       title={s.label}
                     >
                       {s.label === 'GitHub' && <Github className="h-5 w-5" />}
@@ -152,99 +139,90 @@ const Contact: React.FC<ContactProps> = ({ content, socials }) => {
                 </div>
               </div>
 
-              {/* Availability badge */}
-              <div className="glass rounded-2xl p-4 flex items-center gap-3">
-                <div className="w-2.5 h-2.5 rounded-full bg-accent-success animate-glowPulse flex-shrink-0"
-                  style={{ boxShadow: '0 0 8px #00ff66' }} />
-                <span className="text-sm text-gray-300">
+              <div className="glass-panel rounded-2xl p-4 flex items-center gap-3 border border-slate-700/30">
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse flex-shrink-0 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
+                <span className="text-sm text-slate-300">
                   {content.availability}
                 </span>
               </div>
             </motion.div>
 
-            {/* Right: form */}
             <motion.div variants={rightVariants} className="lg:col-span-3">
-               <div className="glass glass-hover rounded-2xl p-5 sm:p-6 md:p-8 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-32 h-32 pointer-events-none" style={{
-                  background: 'radial-gradient(circle, rgba(178,75,243,0.05) 0%, transparent 70%)',
-                }} />
+              <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-slate-700/30 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-32 h-32 pointer-events-none">
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-teal-500/5 to-transparent rounded-tr-3xl" />
+                </div>
 
-                <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
-                  <span className="text-neon-orange font-mono">$</span>
-                  <span>Send Message.exe</span>
+                <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                  <span className="text-amber-400 font-mono text-lg">$</span>
+                  <span>Send Message</span>
                 </h3>
 
                 {submitSuccess ? (
                   <motion.div
-                    className="rounded-xl p-8 text-center"
-                    style={{ background: 'rgba(0,255,102,0.05)', border: '1px solid rgba(0,255,102,0.2)' }}
-                    initial={{ scale: 0.9, opacity: 0 }}
+                    className="rounded-xl p-8 text-center border border-green-500/20 bg-green-500/5"
+                    initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                   >
-                    <div className="text-4xl mb-3">📨</div>
-                    <p className="text-accent-success text-lg font-semibold mb-1">Message sent!</p>
-                    <p className="text-gray-400 text-sm">I'll get back within 24 hours — no bots, just code.</p>
+                    <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
+                      <Send className="h-8 w-8 text-green-400" />
+                    </div>
+                    <p className="text-green-400 text-lg font-semibold mb-2">Message Sent!</p>
+                    <p className="text-slate-400 text-sm">I'll get back within 24 hours.</p>
                   </motion.div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <motion.div custom={0} variants={fieldVariants} initial="hidden" animate="visible">
-                      <label className="block text-gray-400 text-sm mb-2 font-mono">
-                        <span className="text-neon-blue">$</span> name
+                      <label className="block text-slate-400 text-sm mb-2 font-medium">
+                        Name
                       </label>
                       <input type="text" name="name" value={formState.name}
                         onChange={handleInputChange} required
                         className="terminal-input" placeholder="John Doe" />
                     </motion.div>
                     <motion.div custom={1} variants={fieldVariants} initial="hidden" animate="visible">
-                      <label className="block text-gray-400 text-sm mb-2 font-mono">
-                        <span className="text-neon-blue">$</span> email
+                      <label className="block text-slate-400 text-sm mb-2 font-medium">
+                        Email
                       </label>
                       <input type="email" name="email" value={formState.email}
                         onChange={handleInputChange} required
                         className="terminal-input" placeholder="john@example.com" />
                     </motion.div>
                     <motion.div custom={2} variants={fieldVariants} initial="hidden" animate="visible">
-                      <label className="block text-gray-400 text-sm mb-2 font-mono">
-                        <span className="text-neon-blue">$</span> message
+                      <label className="block text-slate-400 text-sm mb-2 font-medium">
+                        Message
                       </label>
                       <textarea name="message" value={formState.message}
                         onChange={handleInputChange} required rows={5}
-                        className="terminal-input resize-none"
-                        placeholder="I'd like to discuss a project..." />
+                        className="terminal-input resize-none" placeholder="I'd like to discuss a project..." />
                     </motion.div>
 
                     {submitError && (
-                      <p className="text-accent-error text-sm">{submitError}</p>
+                      <p className="text-red-400 text-sm bg-red-500/10 px-4 py-2 rounded-lg border border-red-500/20">
+                        {submitError}
+                      </p>
                     )}
 
                     <motion.div custom={3} variants={fieldVariants} initial="hidden" animate="visible">
-                    <motion.button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full gradient-border-btn flex items-center justify-center gap-2 disabled:opacity-60"
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                    >
-                      {isSubmitting ? (
-                        <motion.span
-                          className="flex items-center gap-2 text-gray-300"
-                          animate={{ opacity: [1, 0.5, 1] }}
-                          transition={{ duration: 0.8, repeat: Infinity }}
-                        >
-                          <motion.span
-                            style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#00F5FF' }}
-                            animate={{ scale: [1, 1.5, 1] }}
-                            transition={{ duration: 0.5, repeat: Infinity }}
-                          />
-                          Processing...
-                        </motion.span>
-                      ) : (
-                        <>
-                          <Send className="h-4 w-4" />
-                          <span>Execute Send Command</span>
-                        </>
-                      )}
-                    </motion.button>
+                      <motion.button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg shadow-blue-500/20 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                      >
+                        {isSubmitting ? (
+                          <span className="flex items-center gap-2">
+                            <span className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                            Sending...
+                          </span>
+                        ) : (
+                          <>
+                            <Send className="h-4 w-4" />
+                            <span>Send Message</span>
+                          </>
+                        )}
+                      </motion.button>
                     </motion.div>
                   </form>
                 )}

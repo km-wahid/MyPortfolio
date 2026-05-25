@@ -7,38 +7,76 @@ interface Props {
 
 const LoadingScreen: React.FC<Props> = ({ onComplete }) => {
   const [closing, setClosing] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const closeTimer = setTimeout(() => setClosing(true), 280);
-    const doneTimer = setTimeout(onComplete, 620);
-    return () => {
-      clearTimeout(closeTimer);
-      clearTimeout(doneTimer);
-    };
-  }, [onComplete]);
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          return 100;
+        }
+        return prev + 4;
+      });
+    }, 25);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (progress === 100) {
+      const closeTimer = setTimeout(() => setClosing(true), 200);
+      const doneTimer = setTimeout(onComplete, 700);
+      return () => {
+        clearTimeout(closeTimer);
+        clearTimeout(doneTimer);
+      };
+    }
+  }, [progress, onComplete]);
 
   return (
     <motion.div
-      className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
-      style={{
-        background: 'radial-gradient(ellipse at 50% 35%, #131c2f 0%, #0B0F1A 60%, #070a13 100%)',
-      }}
-      initial={{ y: 0 }}
-      animate={closing ? { y: '-100%' } : { y: 0 }}
-      transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-dark-900 px-4 overflow-hidden"
+      initial={{ opacity: 1 }}
+      animate={closing ? { opacity: 0, y: '-100%' } : { opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="loader-terminal-shell">
-        <div className="loader-terminal-head">terminal://loading</div>
-        <div className="loader-terminal-body">
-          <div className="loader-command-line">
-            <span className="loader-prompt">$</span> launching portfolio...
-          </div>
-          <div className="dino-loader">
-            <div className="dino-runner" />
-            <div className="dino-obstacle" />
-            <div className="dino-ground" />
-          </div>
+      {/* Skater Loader */}
+      <div className="loader">
+        <span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+        <div className="base">
+          <span></span>
+          <div className="face"></div>
         </div>
+      </div>
+      <div className="longfazers">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div className="absolute bottom-[20%] flex flex-col items-center max-w-xs w-full text-center z-10">
+        {/* Progress bar */}
+        <div className="w-48 h-[2px] bg-white/10 rounded-full overflow-hidden relative">
+          <div
+            className="h-full bg-gradient-to-r from-neon-blue to-neon-purple rounded-full transition-all duration-75 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        
+        {/* Subtext */}
+        <motion.span
+          className="text-xs text-gray-500 mt-4 font-mono tracking-widest uppercase"
+          animate={{ opacity: [0.4, 1, 0.4] }}
+          transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
+        >
+          Initializing Portfolio
+        </motion.span>
       </div>
     </motion.div>
   );
